@@ -147,7 +147,7 @@ WHERE E.TIPPOL =$P{tipo}
 					<font fontName="Arial" size="9" isBold="true"/>
 					<paragraph leftIndent="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{beneficiario}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["        " + $P{beneficiario}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="123" width="588" height="20" uuid="c02871b2-5568-4964-a08b-3a55dc06322b">
@@ -167,7 +167,7 @@ WHERE E.TIPPOL =$P{tipo}
 					<font fontName="Arial" size="9" isBold="true"/>
 					<paragraph leftIndent="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{montoLetter}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["        " + $P{montoLetter}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="477" y="98" width="110" height="20" uuid="49f2a3f1-5a71-4b2c-8166-cb3cb3d04409">
@@ -187,7 +187,7 @@ WHERE E.TIPPOL =$P{tipo}
 				<textFieldExpression><![CDATA[$P{monto}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="394" y="35" width="192" height="20" uuid="155f1ef1-c0e7-4288-8eda-dd9bd1b7058a">
+				<reportElement x="428" y="35" width="158" height="20" uuid="155f1ef1-c0e7-4288-8eda-dd9bd1b7058a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="cm"/>
 					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
