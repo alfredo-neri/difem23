@@ -1,0 +1,1299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CONAC_Estado_Situacion_Financiera" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="762" leftMargin="10" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ded9f4a0-e50d-4a9d-b0da-96c7db85aee2">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#CDCDCD">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DatasetActivo" uuid="c86b735d-9311-40b1-badd-8d1f283b6a5e">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+		<parameter name="sqlActivo" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[$P!{sqlActivo}]]>
+		</queryString>
+		<field name="GRUPO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GRUPO"/>
+			<property name="com.jaspersoft.studio.field.label" value="GRUPO"/>
+		</field>
+		<field name="STACTA" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="STACTA"/>
+			<property name="com.jaspersoft.studio.field.label" value="STACTA"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="CUENTA"/>
+		</field>
+		<field name="NOMCTA" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="NOMCTA"/>
+			<property name="com.jaspersoft.studio.field.label" value="NOMCTA"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="CUENTA"/>
+		</field>
+		<field name="CUENTA" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="CUENTA"/>
+			<property name="com.jaspersoft.studio.field.label" value="CUENTA"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="CUENTA"/>
+		</field>
+		<field name="SALINI" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="SALINI"/>
+			<property name="com.jaspersoft.studio.field.label" value="SALINI"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="CUENTA"/>
+		</field>
+		<field name="SDO_ANTERIOR" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="SDO_ANTERIOR"/>
+			<property name="com.jaspersoft.studio.field.label" value="SDO_ANTERIOR"/>
+		</field>
+		<field name="ABONOS_ACT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="ABONOS_ACT"/>
+			<property name="com.jaspersoft.studio.field.label" value="ABONOS_ACT"/>
+		</field>
+		<field name="CARGOS_ACT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="CARGOS_ACT"/>
+			<property name="com.jaspersoft.studio.field.label" value="CARGOS_ACT"/>
+		</field>
+		<variable name="periodoActual" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{STACTA}.toUpperCase().equals("D")?(
+	($F{SALINI}.add($F{CARGOS_ACT}).subtract($F{ABONOS_ACT}))
+)
+:
+(
+	($F{CUENTA}.substring(0,2).equals("12")  || $F{CUENTA}.substring(0,3).equals("116"))  && $F{STACTA}.toUpperCase().equals("A")?
+		($F{SALINI}.multiply(new BigDecimal (-1)).add($F{CARGOS_ACT}).subtract($F{ABONOS_ACT}))
+	:
+	
+       ($F{CUENTA}.equals("1115")  )?(
+ 	($F{SALINI}.add($F{CARGOS_ACT}).subtract($F{ABONOS_ACT}))
+ ):
+      ($F{SALINI}.subtract($F{CARGOS_ACT}).add($F{ABONOS_ACT})) 
+
+)]]></variableExpression>
+		</variable>
+		<variable name="variacion" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{SDO_ANTERIOR}.subtract($V{periodoActual})]]></variableExpression>
+		</variable>
+		<variable name="totalSaldoAnterior" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUPO" calculation="Sum">
+			<variableExpression><![CDATA[$F{SDO_ANTERIOR}]]></variableExpression>
+		</variable>
+		<variable name="totalPeriodoActual" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUPO" calculation="Sum">
+			<variableExpression><![CDATA[$V{periodoActual}]]></variableExpression>
+		</variable>
+		<variable name="totalVariacion" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUPO" calculation="Sum">
+			<variableExpression><![CDATA[$V{variacion}]]></variableExpression>
+		</variable>
+		<variable name="granTotalSaldoAnterior" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{SDO_ANTERIOR}]]></variableExpression>
+		</variable>
+		<variable name="granTtotalPeriodoActual" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$V{periodoActual}]]></variableExpression>
+		</variable>
+		<variable name="granTotalVariacion" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$V{variacion}]]></variableExpression>
+		</variable>
+		<group name="GRUPO">
+			<groupExpression><![CDATA[$F{GRUPO}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="DatasetPasivo" uuid="c2892208-62e6-47f2-8827-8262d5265d34">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+		<parameter name="periodoActual3211" class="java.math.BigDecimal">
+			<defaultValueExpression><![CDATA[BigDecimal.ZERO]]></defaultValueExpression>
+		</parameter>
+		<parameter name="sqlPasivo" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[$P!{sqlPasivo}]]>
+		</queryString>
+		<field name="CUENTA" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="CUENTA"/>
+			<property name="com.jaspersoft.studio.field.label" value="CUENTA"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="CUENTA"/>
+		</field>
+		<field name="NOMCTA" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="NOMCTA"/>
+			<property name="com.jaspersoft.studio.field.label" value="NOMCTA"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="CUENTA"/>
+		</field>
+		<field name="SDO_ANTERIOR" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="SDO_ANTERIOR"/>
+			<property name="com.jaspersoft.studio.field.label" value="SDO_ANTERIOR"/>
+		</field>
+		<field name="ABONOS_ACT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="ABONOS_ACT"/>
+			<property name="com.jaspersoft.studio.field.label" value="ABONOS_ACT"/>
+		</field>
+		<field name="CARGOS_ACT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="CARGOS_ACT"/>
+			<property name="com.jaspersoft.studio.field.label" value="CARGOS_ACT"/>
+		</field>
+		<field name="GRUPO" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="GRUPO"/>
+			<property name="com.jaspersoft.studio.field.label" value="GRUPO"/>
+		</field>
+		<field name="SALINI" class="java.math.BigDecimal"/>
+		<field name="STACTA" class="java.lang.String"/>
+		<variable name="periodoActual" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{CUENTA}.equals("3211") ?$P{periodoActual3211} : 
+$F{CUENTA}.equals("3241") && $F{STACTA}.equals("D") ?
+		$F{SALINI}.subtract($F{CARGOS_ACT}).add($F{ABONOS_ACT}) :
+				$F{STACTA}.equals("D") ? 
+						$F{SALINI}.add($F{CARGOS_ACT}).subtract($F{ABONOS_ACT}) : 
+						$F{SALINI}.subtract($F{CARGOS_ACT}).add($F{ABONOS_ACT})]]></variableExpression>
+		</variable>
+		<variable name="variacion" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$V{periodoActual}.subtract($F{SDO_ANTERIOR})]]></variableExpression>
+		</variable>
+		<variable name="pasivoPatrimonioAnterior" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{CUENTA}.substring(3).equals("0") ? BigDecimal.ZERO : $F{SDO_ANTERIOR}]]></variableExpression>
+		</variable>
+		<variable name="pasivoPatrimonioActual" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{CUENTA}.substring(3).equals("0") ? BigDecimal.ZERO : $V{periodoActual}]]></variableExpression>
+		</variable>
+		<variable name="pasivoPatrimonioVariacion" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$V{pasivoPatrimonioActual}.subtract($V{pasivoPatrimonioAnterior})]]></variableExpression>
+		</variable>
+		<group name="GRUPO">
+			<groupExpression><![CDATA[$F{GRUPO}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="DatasetOrden" uuid="ec732c21-1d21-407d-b1dd-d2ef5e7edbd5">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+		<parameter name="sqlOrden" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[$P!{sqlOrden}]]>
+		</queryString>
+		<field name="STACTA" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="STACTA"/>
+			<property name="com.jaspersoft.studio.field.label" value="STACTA"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="CUENTA"/>
+		</field>
+		<field name="NOMCTA" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="NOMCTA"/>
+			<property name="com.jaspersoft.studio.field.label" value="NOMCTA"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="CUENTA"/>
+		</field>
+		<field name="CUENTA" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="CUENTA"/>
+			<property name="com.jaspersoft.studio.field.label" value="CUENTA"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="CUENTA"/>
+		</field>
+		<field name="SALINI" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="SALINI"/>
+			<property name="com.jaspersoft.studio.field.label" value="SALINI"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="CUENTA"/>
+		</field>
+		<field name="SDO_ANTERIOR" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="SDO_ANTERIOR"/>
+			<property name="com.jaspersoft.studio.field.label" value="SDO_ANTERIOR"/>
+		</field>
+		<field name="ABONOS_ACT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="ABONOS_ACT"/>
+			<property name="com.jaspersoft.studio.field.label" value="ABONOS_ACT"/>
+		</field>
+		<field name="CARGOS_ACT" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="CARGOS_ACT"/>
+			<property name="com.jaspersoft.studio.field.label" value="CARGOS_ACT"/>
+		</field>
+		<variable name="periodoActual" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{STACTA}.equals("D") ?
+	$F{SALINI}.add($F{CARGOS_ACT}).subtract($F{ABONOS_ACT}) :
+	$F{SALINI}.subtract($F{CARGOS_ACT}).add($F{ABONOS_ACT})]]></variableExpression>
+		</variable>
+		<variable name="variacion" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$F{SDO_ANTERIOR}.subtract($V{periodoActual})]]></variableExpression>
+		</variable>
+		<variable name="totalPeriodoAnterior" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{CUENTA}.substring(3).equals("0")&& 
+!$F{CUENTA}.substring(0,2).equals("77")&&
+!$F{CUENTA}.substring(0,2).equals("81")?   BigDecimal.ZERO:$F{SDO_ANTERIOR}]]></variableExpression>
+		</variable>
+		<variable name="totalPeriodoActual" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{CUENTA}.substring(3).equals("0")&& 
+!$F{CUENTA}.substring(0,2).equals("77")&&
+!$F{CUENTA}.substring(0,2).equals("81")?   BigDecimal.ZERO:$V{periodoActual}]]></variableExpression>
+		</variable>
+		<variable name="totalVariacion" class="java.math.BigDecimal">
+			<variableExpression><![CDATA[$V{totalPeriodoAnterior}.subtract($V{totalPeriodoActual})]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="mesLetra" class="java.lang.String"/>
+	<parameter name="lastDay" class="java.lang.Integer"/>
+	<parameter name="year" class="java.lang.Integer"/>
+	<parameter name="ctasOrden" class="java.lang.String"/>
+	<parameter name="imagenPathLeft" class="java.lang.String"/>
+	<parameter name="imagenPathRight" class="java.lang.String"/>
+	<parameter name="periodoActual3211" class="java.math.BigDecimal"/>
+	<parameter name="nombreDependencia" class="java.lang.String"/>
+	<parameter name="firmaL1" class="java.lang.String"/>
+	<parameter name="firmaN1" class="java.lang.String"/>
+	<parameter name="firmaL2" class="java.lang.String"/>
+	<parameter name="firmaN2" class="java.lang.String"/>
+	<parameter name="firmaL3" class="java.lang.String"/>
+	<parameter name="firmaN3" class="java.lang.String"/>
+	<parameter name="queryActivo" class="java.lang.String"/>
+	<parameter name="queryPasivo" class="java.lang.String"/>
+	<parameter name="queryOrden" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT CURRENT DATE FROM SYSIBM.SYSDUMMY1]]>
+	</queryString>
+	<field name="1" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="1"/>
+	</field>
+	<pageHeader>
+		<band height="75" splitType="Stretch">
+			<staticText>
+				<reportElement x="160" y="40" width="442" height="20" uuid="9a4f2f91-e3b5-48b3-8de5-5762995459fa">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CONAC - Estado de Siatuación Financiera]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="160" y="0" width="442" height="40" uuid="214796ee-d487-406e-85c3-7552ca7f3ad3">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="2.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombreDependencia}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Master">
+				<reportElement x="0" y="60" width="762" height="15" uuid="50371bb9-e968-417c-a7b2-fd367a910fd2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="2.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="2.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" AL " +$P{lastDay} +" DE " +$P{mesLetra}+ " DE " +$P{year}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle" onErrorType="Blank" evaluationTime="Report">
+				<reportElement x="0" y="0" width="160" height="60" isRemoveLineWhenBlank="true" uuid="2ccb0cb6-ebdd-488a-8768-59f42acd80fe">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{imagenPathLeft}]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle" onErrorType="Blank" evaluationTime="Report">
+				<reportElement positionType="FixRelativeToBottom" x="602" y="0" width="160" height="60" isRemoveLineWhenBlank="true" uuid="e6de12da-2d06-4dae-89f3-2ab55194145e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{imagenPathRight}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="90">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<componentElement>
+				<reportElement x="0" y="0" width="375" height="75" uuid="4d967b69-297b-4672-ad58-dd54352ffbb6">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="DatasetActivo" uuid="5c523a2c-a631-458b-b2d0-15c20aa92a9d">
+						<datasetParameter name="sqlActivo">
+							<datasetParameterExpression><![CDATA[$P{queryActivo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="40" uuid="5418d8b8-c4ba-46eb-8df9-44db716bcdf9">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableFooter style="Table_TH" height="15"/>
+						<jr:groupFooter groupName="GRUPO">
+							<jr:cell style="Table 1_TD" height="15" rowSpan="1"/>
+						</jr:groupFooter>
+						<jr:columnHeader style="Table 1_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="40" height="30" uuid="d3c0a502-e00c-4b1c-94f6-e32d8a8e193b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<text><![CDATA[Cuenta]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="40" height="15" uuid="96d3cfaf-8197-43dc-83c6-5f0e7f23818e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CUENTA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="140" uuid="614e4cd8-49e4-4142-9d1f-2c19da2e3b23">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableFooter style="Table_TH" height="15">
+							<staticText>
+								<reportElement x="0" y="0" width="140" height="15" uuid="a75b3664-f333-46a6-b163-28a5223f57ba"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total de Activos]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:groupFooter groupName="GRUPO">
+							<jr:cell style="Table 1_TD" height="15" rowSpan="1">
+								<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="140" height="15" uuid="e11f06ba-a2af-4172-a24b-489ecc00370b"/>
+									<textElement textAlignment="Left" verticalAlignment="Middle">
+										<font fontName="Arial" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{GRUPO}.equals("11")? "Total Activo Circulante" :
+$F{GRUPO}.equals("12")? "Total Activo No Circuante" : "Total Otros Activos"]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:columnHeader style="Table 1_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="140" height="30" uuid="4aa83590-5c74-4615-b627-672ab02e6ee1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<text><![CDATA[Nombre de la Cuenta]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="140" height="15" uuid="fddc3f8a-7af3-4541-8f5a-6766a58e8c0f"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NOMCTA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="b948c7d8-00ad-4683-a4ad-d4a30daa773b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableFooter style="Table_TH" height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="3a28f993-099a-40e8-8b82-0f144dc79b33"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{granTotalSaldoAnterior}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupFooter groupName="GRUPO">
+							<jr:cell style="Table 1_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="2524baba-6215-4c91-81c6-8142661726e4"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalSaldoAnterior}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:columnHeader style="Table 1_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="65" height="30" uuid="5c0157e6-4ca3-4624-8dc0-b9a5d0f5384e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<text><![CDATA[Periodo Anterior]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="32bb999a-3246-4d58-acdd-7078864dba01"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SDO_ANTERIOR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="73b12f0e-c20a-4a8a-9d1c-efb348b1edc8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:tableFooter style="Table_TH" height="15">
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="c8187cb0-33c2-43a5-87cd-48348c46fbae"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{granTtotalPeriodoActual}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupFooter groupName="GRUPO">
+							<jr:cell style="Table 1_TD" height="15" rowSpan="1">
+								<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="2250583c-6598-4031-b2b9-9fcfec046781"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalPeriodoActual}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:columnHeader style="Table 1_TH" height="30">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="65" height="30" uuid="722d6b04-f600-432c-aea3-bbf2488ab9f3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<text><![CDATA[Periodo Actual]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="5e5d0a35-c2b4-4217-ad5a-5dff3064b871"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{periodoActual}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="1e74d2af-4528-43cf-92a9-5602688de205">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:tableFooter style="Table_TH" height="15">
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="dc13f320-0dc6-477e-a300-5e1ee520ef4a"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{granTotalVariacion}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupFooter groupName="GRUPO">
+							<jr:cell style="Table 1_TD" height="15" rowSpan="1">
+								<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="e0a43d19-1754-46cd-a2e5-c7c31d5a7c55"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalVariacion}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:columnHeader style="Table 1_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="65" height="30" uuid="383afd0d-d37e-48ee-910c-dbb9119aae9e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<text><![CDATA[Variación]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="dbe7beb0-fa2f-4dd6-8211-b622cc75cbc6"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{variacion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:detail splitType="Prevent"/>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement x="387" y="0" width="375" height="90" uuid="12911500-ef1b-449f-99c4-a2c3e2ed45f2">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="DatasetPasivo" uuid="967d160f-47b5-49b3-a551-afc7b7576995">
+						<datasetParameter name="sqlPasivo">
+							<datasetParameterExpression><![CDATA[$P{queryPasivo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="periodoActual3211">
+							<datasetParameterExpression><![CDATA[$P{periodoActual3211}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="40" uuid="f19a7b3e-948f-409f-b1a7-63ace5771bd0">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader style="Table 1_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="40" height="30" uuid="4ba8871d-a279-4445-878e-d18f44553211"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<text><![CDATA[Cuenta]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TD" height="30">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<staticText>
+								<reportElement x="0" y="0" width="40" height="15" uuid="a988a066-74fd-4e2c-95aa-757e95d4abfd"/>
+								<box>
+									<bottomPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<text><![CDATA[]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="15" width="40" height="15" uuid="927a377a-1b49-425b-8405-162c5d84d51f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<text><![CDATA[]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:groupFooter groupName="GRUPO">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="Table 1_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="40" height="15" uuid="98fb2f19-4fe5-4ec8-9c52-ac7c9a8cdb5f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CUENTA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="140" uuid="d8ac4c2a-e5d2-49ae-8d7d-d2d2aca4511f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableHeader style="Table 1_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="140" height="30" uuid="e67a2459-f9bd-4d11-a820-7f1a55610801"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<text><![CDATA[Nombre de la Cuenta]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TD" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="140" height="15" uuid="702d0c6b-dcbd-4839-8aec-40711d926061"/>
+								<box>
+									<bottomPen lineWidth="0.5"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Hacienda Pública / Patrimonio]]></text>
+							</staticText>
+							<staticText>
+								<reportElement x="0" y="15" width="140" height="15" uuid="3211ec91-d202-4de6-b55c-1ae8cb9b9f5f"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Pasivo y Patrimonio]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:groupFooter groupName="GRUPO">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="140" height="15" printWhenGroupChanges="GRUPO" uuid="1b2ab08d-6b09-46f6-9025-baa89bf85a11"/>
+									<textElement verticalAlignment="Middle">
+										<font fontName="Arial" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{GRUPO}.equals("21") ? "TOTAL PASIVO CIRCULANTE" : 
+$F{GRUPO}.equals("22")? "TOTAL PASIVO NO CIRCULANTE" :
+$F{GRUPO}.equals("23")? "TOTAL OTROS PASIVOS" :
+$F{GRUPO}.substring(0,1).equals("3") ? "TOTAL  PATRIMONIO" : ""]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="Table 1_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="140" height="15" uuid="12652973-fd63-48ad-80ad-d8a210d75460"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NOMCTA}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="4db96f7a-9a4f-4c37-b635-94db5b022b08">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableHeader style="Table 1_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="65" height="30" uuid="277e92af-59a3-4c9e-b6f6-d5a26a943c00"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<text><![CDATA[Periodo Anterior]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TD" height="30">
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="06137435-8b66-447b-999a-153ea11e4064"/>
+								<box>
+									<bottomPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[BigDecimal.ZERO]]></textFieldExpression>
+							</textField>
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="15" width="65" height="15" uuid="719c42e1-4ea2-4450-a044-31b3947a5380"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{pasivoPatrimonioAnterior}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupFooter groupName="GRUPO">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="4fa5b36f-e92e-403f-8d28-49d4f8a8e72d"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{pasivoPatrimonioAnterior}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="Table 1_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="0608bc1a-45dc-4e22-8b1e-3cb0b5e7fab8"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{SDO_ANTERIOR}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="690e0822-8695-4fb7-afec-cefec699a0f0">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:tableHeader style="Table 1_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="65" height="30" uuid="45ba0e30-9495-43bf-b14a-a1ad74740fc9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<text><![CDATA[Periodo Actual]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TD" height="30">
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="b40841f9-a849-4289-bfa2-a3dbf1f1155a"/>
+								<box>
+									<bottomPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[BigDecimal.ZERO]]></textFieldExpression>
+							</textField>
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="15" width="65" height="15" uuid="4e796f77-56c5-4b03-b627-6e1fb8debdbe"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{pasivoPatrimonioActual}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupFooter groupName="GRUPO">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="f16e263f-8b5d-4c63-94a3-8c72cf530295"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{pasivoPatrimonioActual}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="Table 1_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="75473472-7e61-4104-9ce9-54a47abf98c6"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{periodoActual}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="65" uuid="b9c79c58-e2eb-449a-93d4-cf5e382c27f8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:tableHeader style="Table 1_TH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="65" height="30" uuid="364bcce3-9ece-46c8-991b-da4cbbf19f3e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial" size="9"/>
+								</textElement>
+								<text><![CDATA[Variación]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TD" height="30">
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="8cd31ddb-e78e-4563-a236-c8513b1b775a"/>
+								<box>
+									<bottomPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[BigDecimal.ZERO]]></textFieldExpression>
+							</textField>
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="15" width="65" height="15" uuid="d749e977-a7ed-4773-b204-f2a78c7777a6"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{pasivoPatrimonioVariacion}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:groupFooter groupName="GRUPO">
+							<jr:cell style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="aa7c950e-156a-4d65-90f3-81a552fa50a9"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{pasivoPatrimonioVariacion}]]></textFieldExpression>
+								</textField>
+							</jr:cell>
+						</jr:groupFooter>
+						<jr:detailCell style="Table 1_TD" height="15">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField textAdjust="StretchHeight" pattern="#,##0.00" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="65" height="15" uuid="9efd3a7b-094e-46b8-a040-c12d69791748"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{variacion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:groupFooter groupName="GRUPO">
+						<jr:row/>
+					</jr:groupFooter>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="90" splitType="Prevent">
+			<printWhenExpression><![CDATA[$P{ctasOrden}.equals("S") || $P{ctasOrden}.equals("Y")]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="0" y="0" width="762" height="90" uuid="609a4e9e-f556-4852-81a9-bdcb422b0cb2">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 3_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 3_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 3_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="DatasetOrden" uuid="22564c47-25e7-4bda-abc0-f897f86de716">
+						<datasetParameter name="sqlOrden">
+							<datasetParameterExpression><![CDATA[$P{queryOrden}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:columnGroup width="762" uuid="a604524c-3d79-45e0-b994-ea94df4d2822">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [5]"/>
+						<jr:tableHeader style="Table_TD" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="762" height="30" uuid="f7af94c9-79ff-4f23-8ee3-cc1bb5cc14b9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Arial"/>
+								</textElement>
+								<text><![CDATA[Cuentas de Orden]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:column width="40" uuid="e6e44410-0849-400d-b868-9be952cb26c2">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+							<jr:tableFooter style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							</jr:tableFooter>
+							<jr:columnHeader style="Table 1_TH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="40" height="30" uuid="d3289194-6cea-4a02-8259-30851e2005e7"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<text><![CDATA[Cuenta]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 3_TD" height="15">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="40" height="15" uuid="47b25a14-9f69-46ef-b4a0-b4dd35d4b1f4"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{CUENTA}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="527" uuid="77ca2e06-2ca4-4d0b-aa4e-453267fea4c5">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+							<jr:tableFooter style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="527" height="15" uuid="b25fa707-7bca-48d3-8073-72c7281fe07a"/>
+									<textElement textAlignment="Left" verticalAlignment="Middle">
+										<font fontName="Arial" size="9" isBold="true"/>
+									</textElement>
+									<text><![CDATA[Total Cuentas de Orden]]></text>
+								</staticText>
+							</jr:tableFooter>
+							<jr:columnHeader style="Table 1_TH" height="30" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="527" height="30" uuid="766ae430-b1f4-4118-afc9-3ec87819d98c"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<text><![CDATA[Nombre de la Cuenta]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 3_TD" height="15">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="527" height="15" uuid="b829982c-40b9-4feb-864a-a8b51573c78c"/>
+									<textElement verticalAlignment="Middle">
+										<font fontName="Arial" size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{NOMCTA}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="65" uuid="4e8fc9bf-1941-4c32-b9f9-9b665aa6d28a">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+							<jr:tableFooter style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="ScaleFont" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="80b8c933-9181-4d4e-8f1f-678eda1de0b0"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalPeriodoAnterior}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader style="Table 1_TH" height="30" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="65" height="30" uuid="54933b64-c181-46ad-b4a3-8829cb14c0b0"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<text><![CDATA[Periodo Anterior]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 3_TD" height="15">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="ScaleFont" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="6e5d19b0-9b06-4303-97c8-b3c57a01f2fd"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{SDO_ANTERIOR}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="65" uuid="7df17ed2-2091-4c59-9e54-47547783be8b">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+							<jr:tableFooter style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="ScaleFont" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="dfb85385-204a-4da4-947b-36a0efa18e74"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalPeriodoActual}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader style="Table 1_TH" height="30" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="65" height="30" uuid="9fb2e2c3-500a-480b-b57c-4e6be66de4c8"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<text><![CDATA[Periodo Actual]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 3_TD" height="15">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="ScaleFont" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="4cbc4615-f93e-48b7-bb2b-e6883c638ba7"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{periodoActual}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="65" uuid="4b7699ab-80e9-48bf-8c17-83358fb3667f">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+							<jr:tableFooter style="Table_TD" height="15" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="ScaleFont" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="1b14e410-a7c9-4e85-9279-235ca9f373f4"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8" isBold="true"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalVariacion}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader style="Table 1_TH" height="30" rowSpan="1">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<staticText>
+									<reportElement x="0" y="0" width="65" height="30" uuid="b3783759-ab6a-4c6c-b8e7-4143dc681434"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Arial" size="9"/>
+									</textElement>
+									<text><![CDATA[Variación]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 3_TD" height="15">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<textField textAdjust="ScaleFont" pattern="#,##0.00" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="65" height="15" uuid="039a3f7b-ae2b-4c60-add1-bbce77a23297"/>
+									<textElement textAlignment="Right" verticalAlignment="Middle">
+										<font fontName="Arial" size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{variacion}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="12" splitType="Stretch">
+			<staticText>
+				<reportElement x="632" y="0" width="65" height="12" uuid="e4aecf3d-95d9-4f99-b5e8-00f3f838a40f">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hoja No: ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="567" y="0" width="65" height="12" uuid="eb43eb7f-6355-4ed7-b697-0aa5d7168d1b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="387" y="0" width="180" height="12" uuid="1574d7da-f534-4afc-88ed-d875e1ae42c8">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Elaboración: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="697" y="0" width="65" height="12" uuid="ca9882bc-8a1a-436d-98fb-66862f3877af"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="42" splitType="Stretch">
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="522" y="20" width="240" height="10" isRemoveLineWhenBlank="true" uuid="de6eae0b-001f-4f62-84e9-c896ca9abae1">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firmaL3}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="522" y="0" width="240" height="20" uuid="5c2d32f5-1240-4f8d-a4aa-601c7f1caf7a">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firmaN3}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="0" y="20" width="240" height="10" isRemoveLineWhenBlank="true" uuid="3c758b46-cca7-4fde-aabf-32fa48b36128"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firmaL1}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="240" height="20" isRemoveLineWhenBlank="true" uuid="3b3d31f1-6731-4f40-8dcc-8413aea9970a">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firmaN1}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="262" y="20" width="240" height="10" isRemoveLineWhenBlank="true" uuid="4c7ec01a-68b5-4021-b3fc-7fd621b08243">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firmaL2}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="262" y="0" width="240" height="20" isRemoveLineWhenBlank="true" uuid="e4d700c3-fdc9-456b-8e4c-18138d35ed34">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firmaN2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="632" y="30" width="65" height="12" uuid="7b62ef7b-6aca-4ab2-bf5c-d3dedc44023f">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hoja No: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="697" y="30" width="65" height="12" uuid="c5bd15c1-4f65-4cb5-808b-bdb0f50473ff"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="387" y="30" width="180" height="12" uuid="f4e77425-c920-4ae0-b589-e171779e97e5">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Elaboración: ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="567" y="30" width="65" height="12" uuid="adefd860-bc3a-48b5-82ad-674a9457ef38">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="12">
+			<staticText>
+				<reportElement x="0" y="0" width="762" height="12" uuid="9b345336-9ec8-45ad-b7d6-71e6b9c7d1e7">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bajo protesta de decir verdad declaramos que los Estados Financieros y sus notas, son razonablemente correctos y son responsabilidad del emisor]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
