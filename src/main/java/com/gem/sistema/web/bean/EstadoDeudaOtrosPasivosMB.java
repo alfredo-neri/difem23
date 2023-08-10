@@ -138,6 +138,8 @@ public class EstadoDeudaOtrosPasivosMB extends ReportePeriodos {
 				+ "                SUBSTR(C.CUENTA,1,2) \r\n" + ") T1\r\n"
 				+ "WHERE (SALINI <> 0 OR CARGOS_ANT<>0 OR ABONOS_ANT <>0 OR CARGOS_ACT <> 0 OR ABONOS_ACT <> 0 )";
 		query = header + sumas + footer;
+		
+		System.out.println("sql: " + query);
 		return query;
 	}
 
