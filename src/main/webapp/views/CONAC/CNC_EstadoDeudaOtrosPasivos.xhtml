@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+	<ui:composition template="/WEB-INF/layout/layout.xhtml">
+		<ui:define name="content">
+			<h:form id="form1">
+				<p:growl id="growlReportador" showDetail="true" sticky="true"></p:growl>
+				<p:panel id="panelReporte"
+					header="CONAC - Estado Anal&iacute;tico de la Deuda y Otros Pasivos"
+					styleClass="green col-md-9 col-centered row-centered shadow-panel">
+					<p:panelGrid columns="2" styleClass="col-centered ui-noborder">
+						<p:selectBooleanCheckbox
+							value="#{cNCEstadoDeudaOtrosPasivosMB.acumulado}"
+							style="	display: flex;	align-items: center;	justify-items: center;"
+							itemLabel="Acumulado" />
+						<p:selectOneButton
+							value="#{cNCEstadoDeudaOtrosPasivosMB.tipoPeriodo}">
+							<f:selectItems
+								value="#{cNCEstadoDeudaOtrosPasivosMB.tiposPeridos}" var="p"
+								itemValue="#{p}" itemLabel="#{p}" />
+							<p:ajax event="change"
+								listener="#{cNCEstadoDeudaOtrosPasivosMB.changePeriodo}"
+								update="panelReporte" />
+						</p:selectOneButton>
+					</p:panelGrid>
+					<p:panelGrid columns="4" styleClass="col-centered ui-noborder">
+						<h:outputText value="Periodo: " for="mesInputOri"
+							rendered="#{not empty cNCEstadoDeudaOtrosPasivosMB.periodos}" />
+						<p:selectOneMenu id="mesInputOri" editable="false"
+							converter="genericConverter"
+							rendered="#{!cNCEstadoDeudaOtrosPasivosMB.periodos.isEmpty()}"
+							value="#{cNCEstadoDeudaOtrosPasivosMB.periodo}">
+							<f:selectItems value="#{cNCEstadoDeudaOtrosPasivosMB.periodos}"
+								var="p" itemValue="#{p}" itemLabel="#{p.descripcion}" />
+						</p:selectOneMenu>
+						<h:commandLink onclick="PrimeFaces.monitorDownload(start, stop);"
+							title="EXCEL">
+							<p:graphicImage value="../reports/excel.png" width="24" />
+							<p:fileDownload value="#{cNCEstadoDeudaOtrosPasivosMB.fileXls}" />
+						</h:commandLink>
+
+						<p:commandButton id="generateportepdf"
+							onstart="PF('blockUIWidget').block()"
+							oncomplete="PF('blockUIWidget').unblock()"
+							action="#{cNCEstadoDeudaOtrosPasivosMB.createFilePdfInline}"
+							value="Correcto" update="form1:inlinePdf, :form1:growlReportador"
+							styleClass="btn btn-default">
+						</p:commandButton>
+
+
+					</p:panelGrid>
+
+					<p:panel id="inlinePdf" style="border:0px"
+						visible="#{cNCEstadoDeudaOtrosPasivosMB.uuid ne null}">
+						<object type="application/pdf"
+							data="#{request.contextPath}/GetFileInline?uuid=#{cNCEstadoDeudaOtrosPasivosMB.uuid}&amp;filename=#{cNCEstadoDeudaOtrosPasivosMB.endFilename}"
+							height="380px" width="100%"> Tu browser no puede
+							desplegar el PDF. </object>
+					</p:panel>
+
+				</p:panel>
+				<pe:blockUI widgetVar="blockUIWidget" centerX="false">
+					<h:panelGrid columns="2">
+						<h:graphicImage value="../reports/indice.png"
+							style="margin-right: 12px; vertical-align: middle;" />
+						<h:outputText value="Por favor espere..."
+							style="white-space: nowrap;" />
+					</h:panelGrid>
+				</pe:blockUI>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
