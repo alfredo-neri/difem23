@@ -112,7 +112,7 @@ public class ReporteRF009114MB extends BaseDirectReport {
 		parameters.setMunicipio(this.getUserDetails().getMunicipio());
 		ReportsParamDTO reportsDTO = this.reporteService.executeProcedure(parameters, 2);
 		sSql = reportsDTO.getQuery();
-
+		
 		endFilename = reportsDTO.getoFullFile().toString();
 		try {
 			stream = new FileInputStream(new File(reportsDTO.getoFullFile().toString()));
@@ -122,7 +122,7 @@ public class ReporteRF009114MB extends BaseDirectReport {
 		}
 		contentCSV = new DefaultStreamedContent(stream, "application/txt", endFilename.substring(13));
 		endFilename = "";
-
+		
 		return contentCSV;
 	}
 
@@ -198,6 +198,7 @@ public class ReporteRF009114MB extends BaseDirectReport {
 		parameters.setMunicipio(this.getUserDetails().getMunicipio());
 		ReportsParamDTO reportsDTO = this.reporteService.executeProcedure(parameters, 1);
 		sSql = reportsDTO.getQuery();
+		System.out.println(sSql);
 		endFilename = reportsDTO.getoFullFile().toString();
 		try {
 			stream = new FileInputStream(new File(reportsDTO.getoFullFile().toString()));
@@ -224,7 +225,7 @@ public class ReporteRF009114MB extends BaseDirectReport {
 			parameters.setMunicipio(this.getUserDetails().getMunicipio());
 			sSql = reporteService.executeQuery(Integer.valueOf(mes), this.getUserDetails().getIdSector(), niveles);
 			streamedContent = this.getFileXls();
-
+			System.out.println(sSql);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			generateNotificationFront(SEVERITY_ERROR, MESSAGE_ERROR,
@@ -243,6 +244,7 @@ public class ReporteRF009114MB extends BaseDirectReport {
 			endFilename = jasperReporteName + ".pdf";
 
 			sSql = reporteService.executeQuery(Integer.valueOf(mes), this.getUserDetails().getIdSector(), niveles);
+			
 			this.createFilePdfInline();
 
 		} catch (Exception e) {

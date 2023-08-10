@@ -568,6 +568,7 @@ public class RF009122MB extends BaseDirectReport {
 				.append(" AND N.IDSECTOR=P.IDSECTOR ").append(" WHERE ").append(" P.IDSECTOR = " + idsector)
 				.append(" AND SUBSTR(P.PROGRAMA,1,2)='" + xdire + "'").append(" GROUP BY P.PARTIDA,N.NOMGAS)")
 				.append("T1 WHERE A+B+C+D+F+G+CPT<>0");
+		System.out.println(sSql);
 		return sSql.toString();
 	}
 

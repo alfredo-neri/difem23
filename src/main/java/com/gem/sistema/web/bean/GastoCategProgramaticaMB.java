@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.gem.sistema.business.domain.Conctb;
 import com.gem.sistema.business.domain.TrPuestoFirma;
 import com.gem.sistema.business.repository.catalogs.ConctbRepository;
@@ -20,7 +22,10 @@ import static com.roonin.utils.UtilDate.getLastDayByAnoEmp;
 @ManagedBean(name = "gastoCategProgramaticaMB")
 @ViewScoped
 public class GastoCategProgramaticaMB extends ReportePeriodos {
-
+	final static private String VW1="VI_GASTO_PROGRAMATICO_T1";
+	final static private String VW2="VI_GASTO_PROGRAMATICO_T2";
+	final static private String VW3="VI_GASTO_PROGRAMATICO_T3";
+	final static private String VW4="VI_GASTO_PROGRAMATICO_T4";
 	@ManagedProperty("#{conctbRepository}")
 	private ConctbRepository conctbRepository;
 
@@ -40,13 +45,31 @@ public class GastoCategProgramaticaMB extends ReportePeriodos {
 		Integer idSector = this.getUserDetails().getIdSector();
 		Conctb conctb = conctbRepository.findByIdsector(idSector);
 		TrPuestoFirma firma = null;
-
+		String pSql=StringUtils.EMPTY;
 		parameters.put("pMun", conctb.getNomDep());
 		parameters.put("pDay", getLastDayByAnoEmp(getMesSelected(), conctb.getAnoemp()));
 		parameters.put("pMes", getNombreMesSelected().toUpperCase());
 		parameters.put("pMesInicial", getNombreMesInicial().toUpperCase());
 		parameters.put("pYear", conctb.getAnoemp());
 		parameters.put("pImagen", conctb.getImagePathLeft());
+		pSql="SELECT PROGRAMA,CONCEPTO,APROBADO, AMP_RED,MODIFICADO,DEVENGADO,PAGADO,SUBEJERCIDO SUB_E FROM ";
+		switch (periodo.getPeriodo()) {
+		      case 1:
+		    	  pSql=pSql+VW1;
+		          break;
+		      case 2:
+		    	  pSql=pSql+ VW2;
+		          break;
+		      case  3:
+		    	  pSql=pSql+ VW3;
+		           break;
+		      case 4:
+		    	  pSql=pSql+VW4;
+		            break;   
+		      }
+		pSql=pSql+" ORDER BY PROGRAMA ASC";
+		parameters.put("pQuery", pSql);
+		
 		if (idSector == 1) {
 			switch (conctb.getClave().substring(0, 1)) {
 			case "0":
@@ -121,9 +144,9 @@ public class GastoCategProgramaticaMB extends ReportePeriodos {
 			parameters.put("pL4", firma.getPuesto().getPuesto());
 			parameters.put("pN4", firma.getNombre());
 		}
-
-		parameters.put("pQuery", this.generateSQL(idSector));
-
+		
+		
+	
 		return parameters;
 	}
 
@@ -150,15 +173,16 @@ public class GastoCategProgramaticaMB extends ReportePeriodos {
 		ejxpa = ejxpa.substring(0, ejxpa.length() - 2) + " ) DEVENGADO, ";
 		ampli = ampli.substring(0, ampli.length() - 2) + " ) AMPLIACIONES, ";
 
-		sql.append("SELECT RES.CONCEPTO, RES.APROBADO, (RES.AMPLIACIONES-RES.REDUCCIONES) AMP_RED, ")
+		sql.append("SELECT RES.PROGRAMA,RES.CONCEPTO, RES.APROBADO, (RES.AMPLIACIONES-RES.REDUCCIONES) AMP_RED, ")
 				.append("(RES.APROBADO+RES.AMPLIACIONES-RES.REDUCCIONES) MODIFICADO , RES.DEVENGADO, ")
 				.append("RES.PAGADO, (RES.APROBADO+RES.AMPLIACIONES-RES.REDUCCIONES-RES.DEVENGADO) SUB_E ")
-				.append("FROM (SELECT SUBSTR(P.PROGRAMA,1,8)  ||'       '||  M.CAMPO6 CONCEPTO, ").append(auto)
+				.append("FROM (SELECT  SUBSTR(P.PROGRAMA,1,8) PROGRAMA, M.CAMPO6 CONCEPTO, ").append(auto)
 				.append(redu).append(ampli).append(ejxpa).append(ejpa)
 				.append("FROM PASO P, MUNINEP M WHERE SUBSTR(P.PROGRAMA,1,8)=M.CAMPO7 AND ")
 				.append("SUBSTR(P.PARTIDA,4,1)<>'0' AND ").append("P.IDSECTOR=M.IDSECTOR AND P.IDSECTOR = ")
 				.append(idSector).append(" GROUP BY SUBSTR(P.PROGRAMA,1,8), M.CAMPO6 ORDER BY 1,2 )RES");
-
+		System.out.println(sql.toString());
+		
 		return sql.toString();
 	}
 

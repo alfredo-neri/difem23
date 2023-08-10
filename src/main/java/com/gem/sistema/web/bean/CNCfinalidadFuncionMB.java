@@ -1,3 +1,6 @@
+
+
+
 package com.gem.sistema.web.bean;
 
 import static com.roonin.utils.UtilDate.getLastDayByAnoEmp;
@@ -21,9 +24,9 @@ import com.gem.sistema.util.ConstantsClaveEnnum;
  * @author Alfredo Neri
  *
  */
-@ManagedBean(name = "finalidadFuncionMB")
+@ManagedBean(name = "CNCfinalidadFuncionMB")
 @ViewScoped
-public class FinalidadFuncionMB extends ReportePeriodos {
+public class CNCfinalidadFuncionMB extends ReportePeriodos {
 
 	private Integer noDecimales;
 	private Integer pesos;
@@ -43,8 +46,8 @@ public class FinalidadFuncionMB extends ReportePeriodos {
 		noDecimales = 2;
 		pesos = 1;
 		conctb = conctbRepository.findByIdsector(this.getUserDetails().getIdSector());
-		jasperReporteName = "ClasificacionFinalidadFuncion";
-		endFilename = "EAEPECF" + conctb.getClave().substring(0, 1) + conctb.getClave1() + conctb.getAnoemp() + ".pdf";
+		jasperReporteName = "CNC_ClasificacionFinalidadFuncion";
+		endFilename = "CNC_EAEPECF" + conctb.getClave().substring(0, 1) + conctb.getClave1() + conctb.getAnoemp() + ".pdf";
 		changePeriodo();
 	}
 
@@ -86,13 +89,13 @@ public class FinalidadFuncionMB extends ReportePeriodos {
 
 		StringBuilder sSql1 = new StringBuilder();
 		StringBuilder sqlMiles = new StringBuilder();
-		Integer trimestre=this.periodo.getPeriodo();
+		 Integer trimestre=this.periodo.getPeriodo();
 		String aprobado = "SUM(";
 		String ampliacion = "SUM(";
 		String reduccion = "SUM(";
 		String devengado = "SUM(";
 		String pagado = "SUM(";
-
+		
 		for (int y = getMesInicial(); y <= getMesSelected(); y++) {
 			ampliacion = ampliacion + " PA.AMPLI1_" + y + " +";
 			reduccion = reduccion + " PA.REDU1_" + y + " +";
@@ -110,17 +113,15 @@ public class FinalidadFuncionMB extends ReportePeriodos {
 		devengado = devengado.substring(0, devengado.length() - 2) + " ) DEVENGADO, ";
 		pagado = pagado.substring(0, pagado.length() - 2) + " ) PAGADO ";
 
-		sSql1.append("	SELECT * FROM(SELECT GRUP,CAMPO7,	CAMPO6,				")
-				.append("		DECODE(APROBADO, NULL, 0,DECODE(GRUP, 2, DECODE(SUBSTR(CAMPO7,1,2), '02',APMLIREDU,APROBADO ),DECODE(CAMPO7, '02',FN_GET_PAD_FTE3("+ trimestre +")+APROBADO ,APROBADO)))APROBADO,				")
-				.append("		DECODE(APMLIREDU, NULL, 0,DECODE(GRUP, 2, DECODE(SUBSTR(CAMPO7,1,2), '02',APROBADO,APMLIREDU),APMLIREDU))APMLIREDU, 				")
-				.append("		DECODE(MODIFICADO, NULL, 0, DECODE(GRUP,1, DECODE(CAMPO7,'02', FN_GET_PAD_FTE3("+ trimestre +")+MODIFICADO, MODIFICADO),MODIFICADO))MODIFICADO,			")
-				.append("		DECODE(DEVENGADO, NULL, 0, DEVENGADO)DEVENGADO, 				")
-				.append("		DECODE(PAGADO, NULL, 0,	PAGADO)PAGADO, 				")
-				.append("	DECODE(SUBEJERCICIO, NULL, 0, DECODE(GRUP,1, DECODE(CAMPO7,'02', FN_GET_PAD_FTE3("+ trimestre +")+SUBEJERCICIO, SUBEJERCICIO), SUBEJERCICIO))SUBEJERCICIO,				")
-				.append("       ROW_NUMBER() OVER(PARTITION BY SUBSTR(CAMPO7,2,1),GRUP) ROW_OF_TOTAL")
-				.append("	FROM(SELECT GRUP,	T1.CAMPO7,	CAMPO6 ,DECODE(GRUP,1,DECODE(CAMPO7,'0206',T1.APROBADO+FN_GET_PAD_FTE3("+ trimestre +"),T1.APROBADO),T1.APROBADO)APROBADO,				")
-				.append("			 DECODE (GRUP,1,DECODE(CAMPO7,'0206',FN_GET_AMPL_REDU_CLASFUN("+ trimestre +"),(T1.AMPLIACIONES - T1.REDUCCIONES)),(T1.AMPLIACIONES - T1.REDUCCIONES)) APMLIREDU,"
-						+ "				")
+		sSql1.append("	SELECT GRUP,CAMPO7,	CAMPO6,				")
+				.append("		DECODE(APROBADO, NULL, 0,DECODE(CAMPO7,'02',FN_GET_DESAROLLOSOCIAL_APROBADO("+ trimestre +"), APROBADO))APROBADO, 				")
+				.append("		DECODE(APMLIREDU, NULL, 0,DECODE(CAMPO7,'02',FN_GET_AMP_REDU_DESARROLLOSOCIAL("+ trimestre +"), 	APMLIREDU))APMLIREDU,				")
+				.append("		DECODE(MODIFICADO, NULL, 0, MODIFICADO)MODIFICADO,				")
+				.append("		DECODE(DEVENGADO, NULL, 0,DEVENGADO)DEVENGADO, 				")
+				.append("		DECODE(PAGADO, NULL, 0,PAGADO)PAGADO,  				")
+				.append("		DECODE(SUBEJERCICIO, NULL, 0, SUBEJERCICIO)SUBEJERCICIO				")
+				.append("	FROM(SELECT GRUP,	T1.CAMPO7,	CAMPO6 ,DECODE (CAMPO7,'0206',FN_GET_APROB_FUN("+ trimestre +"),T1.APROBADO)APROBADO,				")
+				.append("			DECODE (CAMPO7,'0206',FN_GET_AMPL_REDU_CLASFUN("+ trimestre +"),(T1.AMPLIACIONES - T1.REDUCCIONES)) APMLIREDU,				")
 				.append("			(T1.APROBADO + T1.AMPLIACIONES -T1.REDUCCIONES) MODIFICADO,				")
 				.append("			T1.DEVENGADO,	T1.PAGADO,				")
 				.append("			((T1.APROBADO + T1.AMPLIACIONES -T1.REDUCCIONES) - T1.DEVENGADO) SUBEJERCICIO				")
@@ -131,52 +132,23 @@ public class FinalidadFuncionMB extends ReportePeriodos {
 				.append("							NA.CAMPO7 = SUBSTR(PA.PROGRAMA,	1,	4) AND				")
 				.append("							SUBSTR(PA.PARTIDA,	4) <> '0' AND				")
 				.append("							NA.IDSECTOR = PA.IDSECTOR AND				")
-				.append("							PA.IDSECTOR = 2 AND				")
-				.append("							(SUBSTR(PA.PROGRAMA,15,	1)>='1' AND	SUBSTR(PA.PROGRAMA,	15,	1)<='3')				")
+				.append("							PA.IDSECTOR = 2 				")
 				.append("						WHERE NA.CAMPO1<>'' AND NA.CAMPO2=''				")
 				.append("						GROUP BY NA.CAMPO0,	NA.CAMPO7,	NA.CAMPO6)				")
 				.append("					UNION ALL(SELECT M.CAMPO6 ,T1.*  FROM (				")
-				.append("				SELECT 1 GRUP,	NA.CAMPO0,				").append(aprobado).append(ampliacion)
-				.append(reduccion).append(devengado).append(pagado)
+				.append("				SELECT 1 GRUP,	NA.CAMPO0,				").append(aprobado)
+				.append(ampliacion).append(reduccion).append(devengado).append(pagado)
 				.append("				FROM PASO PA RIGHT JOIN MUNINEP NA		ON 				")
 				.append("					NA.CAMPO7 = SUBSTR(PA.PROGRAMA,	1,	4) AND				")
 				.append("					SUBSTR(PA.PARTIDA,	4) <> '0' AND				")
 				.append("					NA.IDSECTOR = PA.IDSECTOR AND				")
-				.append("					PA.IDSECTOR = 2 AND				")
-				.append("					(SUBSTR(PA.PROGRAMA,15,	1)>='1' AND	SUBSTR(PA.PROGRAMA,	15,	1)<='2')				")
+				.append("					PA.IDSECTOR = 2 			")				
 				.append("				WHERE NA.CAMPO1<>'' AND NA.CAMPO2=''				")
 				.append("				GROUP BY NA.CAMPO0) T1, MUNINEP M				")
 				.append("			WHERE M.CAMPO0=T1.CAMPO0 AND M.IDSECTOR=2	AND M.CAMPO1='' )				")
-				.append("			) ORDER BY SUBSTR(CAMPO7,1,2)				")
-				.append("		)UNION ALL(	SELECT * FROM(				")
-				.append("				(SELECT NA.CAMPO6,2 GRUP,NA.CAMPO7,				").append(aprobado)
-				.append(ampliacion).append(reduccion).append(devengado).append(pagado)
-				.append("						FROM PASO PA RIGHT JOIN MUNINEP NA		ON 				")
-				.append("							NA.CAMPO7 = SUBSTR(PA.PROGRAMA,	1,	4) AND				")
-				.append("							SUBSTR(PA.PARTIDA,	4) <> '0' AND				")
-				.append("							NA.IDSECTOR = PA.IDSECTOR AND				")
-				.append("							PA.IDSECTOR = 2 AND				")
-				.append("							(SUBSTR(PA.PROGRAMA,15,	1)>='4' AND	SUBSTR(PA.PROGRAMA,	15,	1)<='5') AND PA.PROGRAMA<>'040401010101265'				")
-				.append("						WHERE NA.CAMPO1<>'' AND NA.CAMPO2=''				")
-				.append("						GROUP BY NA.CAMPO0,	NA.CAMPO7,	NA.CAMPO6)				")
-				.append("					UNION ALL				")
-				.append("					(SELECT M.CAMPO6 ,T1.*  FROM (				")
-				.append("				SELECT 2 GRUP,	NA.CAMPO0,				").append(aprobado).append(ampliacion)
-				.append(reduccion).append(devengado).append(pagado)
-				.append("				FROM PASO PA RIGHT JOIN MUNINEP NA		ON 				")
-				.append("					NA.CAMPO7 = SUBSTR(PA.PROGRAMA,	1,	4) AND				")
-				.append("					SUBSTR(PA.PARTIDA,	4) <> '0' AND				")
-				.append("					NA.IDSECTOR = PA.IDSECTOR AND				")
-				.append("					PA.IDSECTOR = 2 AND				")
-				.append("					(SUBSTR(PA.PROGRAMA,15,	1)>='4' AND	SUBSTR(PA.PROGRAMA,	15,	1)<='5')	AND PA.PROGRAMA<>'040401010101265' 			")
-				.append("				WHERE NA.CAMPO1<>'' AND NA.CAMPO2=''				")
-				.append("				GROUP BY NA.CAMPO0) T1, MUNINEP M				")
-				.append("			WHERE M.CAMPO0=T1.CAMPO0 AND M.IDSECTOR=2				")
-				.append("				AND M.CAMPO1='' )				")
-				.append("			) ORDER BY SUBSTR(CAMPO7,1,2))				")
-				.append("	) T1) ORDER BY 1,2)ORDER BY GRUP				");
+				.append("			) ORDER BY SUBSTR(CAMPO7,1,2)	)			")
+				.append("	) T1) ORDER BY 1,2				");
 		System.out.println(sSql1.toString());
-		
 		if (pesos != 1) {
 			sqlMiles.append(
 					"SELECT T2.GRUP,T2.CAMPO7 , T2.CAMPO6, 	(T2.APROBADO /1000) APROBADO,(T2.APMLIREDU /1000) APMLIREDU,				")
@@ -186,7 +158,8 @@ public class FinalidadFuncionMB extends ReportePeriodos {
 			sSql1.insert(0, sqlMiles);
 			sSql1.append(")T2");
 		}
-		System.out.println(sSql1);
+		System.out.println(sqlMiles.toString());
+		System.out.println(sSql1.toString());
 		return sSql1.toString();
 
 	}

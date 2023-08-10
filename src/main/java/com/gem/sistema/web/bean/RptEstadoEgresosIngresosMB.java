@@ -219,7 +219,8 @@ public class RptEstadoEgresosIngresosMB extends BaseDirectReport {
 				.append("FROM NATGAS N LEFT JOIN CUENTA C ON N.CLVGAS = SUBSTR(C.SSSCTA,1,1)||'000' AND SUBSTR(CUENTA,1,3) IN ('824','825', '827') AND C.IDSECTOR=N.IDSECTOR ")
 				.append("WHERE N.IDSECTOR=" + idSector + " AND SUBSTR(N.CLVGAS,2,3)='000' GROUP BY CLVGAS, NOMGAS")
 				.append(") T1 GROUP BY CLVGAS, NOMGAS ORDER BY CLVGAS");
-
+		System.out.println(queryIngresos.toString());
+		System.out.println(queryEgresos.toString());
 		list.add(queryIngresos.toString());
 		list.add(queryEgresos.toString());
 		return list;

@@ -106,8 +106,7 @@ public class EaidMB extends BaseDirectReport {
 	@PostConstruct
 	public void init() {
 		LOG.info("INICIA EL PROCESO DE CAPTURA DE EAID");
-
-		jasperReporteName = REPORT_NAME;
+		jasperReporteName = "EAID";
 		endFilename = jasperReporteName + ".pdf";
 		this.setIdSector(this.getUserDetails().getIdSector());
 		conctb = this.eaidService.getAnioContable(idSector, 0l);
@@ -330,6 +329,59 @@ public class EaidMB extends BaseDirectReport {
 	/**
 	 * Go to last page.
 	 */
+	
+
+	@Override
+	public Map<String, Object> getParametersReports() throws ReportValidationException {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		Conctb conctb = conctbRepository.findByIdsector(this.getUserDetails().getIdSector());
+		Integer sector = this.getUserDetails().getIdSector();
+		TrPuestoFirma firma = null;
+		Object[] meses = this.getMonths(trimestre, conctb.getAnoemp());
+
+		parameters.put("pMesInicial", meses[0]);
+		parameters.put("pMesFinal", meses[1]);
+		parameters.put("pLastDay", meses[2]);
+		parameters.put("pYear", conctb.getAnoemp());
+		parameters.put("pNombreMunicipio", conctb.getNomDep());
+		parameters.put("pImagen1", conctb.getImagePathLeft());
+		parameters.put("pImagen2", conctb.getImagePathRigth());
+		parameters.put("trimestre", trimestre);
+		parameters.put("idSector", sector);
+	
+		
+		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F08.getValue());
+		parameters.put("pL2", firma.getPuesto().getPuesto());
+		parameters.put("pN2", firma.getNombre());
+		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F09.getValue());
+		parameters.put("pL3", firma.getPuesto().getPuesto());
+		parameters.put("pN3", firma.getNombre());
+		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F11.getValue());
+		parameters.put("pL4", firma.getPuesto().getPuesto());
+		parameters.put("pN4", firma.getNombre());
+
+		parameters.put("trimestre", trimestre);
+		return parameters;
+	}
+
+	@Override
+	public StreamedContent generaReporteSimple(int type) throws ReportValidationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void getFirmas() {
+		List<TrPuestoFirma> puestosFirmas = puestosFirmasService.listPuestosFirmas(this.getUserDetails().getIdSector(),
+				0L);
+		for (int y = 0; y < puestosFirmas.size(); y++) {
+			if (puestosFirmas.get(y).getId() == 1) {
+				this.presidente = puestosFirmas.get(y);
+			}
+			if (puestosFirmas.get(y).getId() == 3) {
+				this.tesorero = puestosFirmas.get(y);
+			}
+		}
+	}
 	public void goToLastPage() {
 		Integer size = this.dataModelEaid.getListT().size();
 		if (this.getbAdicionar() == Boolean.TRUE)
@@ -535,56 +587,6 @@ public class EaidMB extends BaseDirectReport {
 		this.tesorero = tesorero;
 	}
 
-	@Override
-	public Map<String, Object> getParametersReports() throws ReportValidationException {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		Conctb conctb = conctbRepository.findByIdsector(this.getUserDetails().getIdSector());
-		Integer sector = this.getUserDetails().getIdSector();
-		TrPuestoFirma firma = null;
-		Object[] meses = this.getMonths(trimestre, conctb.getAnoemp());
-
-		parameters.put("pMesInicial", meses[0]);
-		parameters.put("pMesFinal", meses[1]);
-		parameters.put("pLastDay", meses[2]);
-		parameters.put("pYear", conctb.getAnoemp());
-		parameters.put("pNombreMunicipio", conctb.getNomDep());
-		parameters.put("pImagen1", conctb.getImagePathLeft());
-		parameters.put("pImagen2", conctb.getImagePathRigth());
-		parameters.put("trimestre", trimestre);
-		parameters.put("idSector", sector);
-
-		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F08.getValue());
-		parameters.put("pL2", firma.getPuesto().getPuesto());
-		parameters.put("pN2", firma.getNombre());
-		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F09.getValue());
-		parameters.put("pL3", firma.getPuesto().getPuesto());
-		parameters.put("pN3", firma.getNombre());
-		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F11.getValue());
-		parameters.put("pL4", firma.getPuesto().getPuesto());
-		parameters.put("pN4", firma.getNombre());
-
-		parameters.put("trimestre", trimestre);
-		return parameters;
-	}
-
-	@Override
-	public StreamedContent generaReporteSimple(int type) throws ReportValidationException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void getFirmas() {
-		List<TrPuestoFirma> puestosFirmas = puestosFirmasService.listPuestosFirmas(this.getUserDetails().getIdSector(),
-				0L);
-		for (int y = 0; y < puestosFirmas.size(); y++) {
-			if (puestosFirmas.get(y).getId() == 1) {
-				this.presidente = puestosFirmas.get(y);
-			}
-			if (puestosFirmas.get(y).getId() == 3) {
-				this.tesorero = puestosFirmas.get(y);
-			}
-		}
-	}
 
 	public Object[] getMonths(Integer trimestre, Integer anio) {
 		Integer mesFinal = trimestre * 3;

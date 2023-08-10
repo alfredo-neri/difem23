@@ -82,48 +82,58 @@ public class ClasificacionAdministrativaMB extends ReportePeriodos {
 	private String generateSql(Integer idSector) {
 		StringBuilder sql = new StringBuilder();
 		StringBuilder sqlMiles = new StringBuilder();
+		Integer trimestre=this.periodo.getPeriodo();
 		String auto = "SUM(";
 		String ejpa = "SUM(";
 		String redu = "SUM(";
 		String ejxpa = "SUM(";
 		String ampli = "SUM(";
+		String ampliGrup = "";
+		String reduGrup = "";
+		String autoGrup="SUM(%s";
 
 		for (int y = getMesInicial(); y <= getMesSelected(); y++) {
 			ejpa = ejpa + " PA.EJPA1_" + y + " +";
 			redu = redu + " PA.REDU1_" + y + " +";
-			ejxpa = ejxpa + " PA.EJXPA1_" + y + " +";
+			ejxpa = ejxpa + " PA.TOEJE1_" + y + " +";
 			ampli = ampli + " PA.AMPLI1_" + y + " +";
+			ampliGrup = ampliGrup + " PA.AMPLI1_" + y + " +";
+			reduGrup = reduGrup + " PA.REDU1_" + y + " +";
 		}
 
 		for (int y = 1; y <= 12; y++) {
 			auto = auto + " PA.AUTO1_" + y + " +";
+			autoGrup=autoGrup + " PA.AUTO1_" + y + " +";
 		}
 
 		auto = auto.substring(0, auto.length() - 2) + " ) APROBADO, ";
+		autoGrup = autoGrup.substring(0, autoGrup.length() - 2) + " )) APROBADO, ";
 		ejpa = ejpa.substring(0, ejpa.length() - 2) + " ) PAGADO, ";
 		redu = redu.substring(0, redu.length() - 2) + " ) REDUCCIONES, ";
 		ejxpa = ejxpa.substring(0, ejxpa.length() - 2) + " ) DEVENGADO, ";
 		ampli = ampli.substring(0, ampli.length() - 2) + " ) AMPLIACION ";
+		
+		autoGrup=String.format(autoGrup, "DECODE (SUBSTR(PA.PARTIDA,1,1),'4',("+ampliGrup.substring(0, ampliGrup.length() - 2) +") - ("+reduGrup.substring(0, reduGrup.length() - 2)+"),");
 
-		sql.append(" SELECT GRUP,  	DECODE(APROBADO,NULL,0,APROBADO)APROBADO,  ")
-				.append(" 	DECODE(AMPL_REDU,NULL,0,AMPL_REDU)AMPL_REDU,  ")
-				.append(" 	DECODE(MODIFICADO,NULL,0,MODIFICADO)MODIFICADO,  ")
+		sql.append(" SELECT GRUP,  	DECODE(APROBADO,NULL,0,DECODE(GRUP,1,APROBADO+FN_GET_PAD_FTE3("+trimestre+"),APROBADO))APROBADO,  ")
+				.append(" 	DECODE(AMPL_REDU,NULL,0,DECODE(GRUP,2,AMPL_REDU-APROBADO,AMPL_REDU))AMPL_REDU,  ")
+				.append(" 	 DECODE(MODIFICADO,NULL,0,DECODE(GRUP, 1,MODIFICADO+FN_GET_PAD_FTE3("+trimestre+"),MODIFICADO))MODIFICADO,  ")
 				.append(" 	DECODE(DEVENGADO,NULL,0,DEVENGADO)DEVENGADO,  ")
 				.append(" 	DECODE(PAGADO,NULL,0,PAGADO)PAGADO,  ")
-				.append(" 	DECODE(SUBEJERCICIO,NULL,0,SUBEJERCICIO)SUBEJERCICIO  ")
+				.append(" 	DECODE(SUBEJERCICIO,NULL,0, DECODE(GRUP,1,SUBEJERCICIO+FN_GET_PAD_FTE3("+trimestre+"),SUBEJERCICIO) )SUBEJERCICIO ")
 				.append(" FROM( SELECT GRUP,	APROBADO,  	(AMPLIACION -REDUCCIONES) AMPL_REDU,  ")
-				.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) MODIFICADO,   	DEVENGADO,	PAGADO,  ")
-				.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) - DEVENGADO SUBEJERCICIO   FROM ((  ")
-				.append(" SELECT 2 GRUP,   ").append(auto).append(ejpa).append(redu).append(ejxpa).append(ampli)
+				.append(" 	DECODE(GRUP,1,(APROBADO + AMPLIACION -REDUCCIONES),AMPLIACION -REDUCCIONES) MODIFICADO,   	DEVENGADO,	PAGADO,  ")
+				.append(" 	DECODE(GRUP,1,	(APROBADO + AMPLIACION -REDUCCIONES) - DEVENGADO, (AMPLIACION -REDUCCIONES) - DEVENGADO) SUBEJERCICIO   FROM ((  ")
+				.append(" SELECT 2 GRUP,   ").append(autoGrup).append(ejpa).append(redu).append(ejxpa).append(ampli)
 				.append(" FROM CATDEP D   		LEFT JOIN PASO PA  ")
 				.append(" 		ON PA.CLAVE = D.CLVDEP AND  	D.IDSECTOR = PA.IDSECTOR AND  ")
 				.append(" 	PA.IDSECTOR = 2 AND  	(SUBSTR(PA.PROGRAMA,	15,	1)>='4'   ")
-				.append(" 	AND	SUBSTR(PA.PROGRAMA,	15,	1)<='5')  ")
+				.append(" 	AND	SUBSTR(PA.PROGRAMA,	15,	1)<='5')  AND PA.PROGRAMA<>'040401010101265'     ")
 				.append(" WHERE SUBSTR(PA.PARTIDA,	2,	3) = '000')   UNION ALL ( SELECT 1 GRUP,  ").append(auto)
 				.append(ejpa).append(redu).append(ejxpa).append(ampli).append(" FROM CATDEP D  ")
 				.append(" 		LEFT JOIN PASO PA 	ON PA.CLAVE = D.CLVDEP AND  ")
 				.append(" 		D.IDSECTOR = PA.IDSECTOR AND 	PA.IDSECTOR = ").append(idSector).append(" AND  ")
-				.append(" 	(SUBSTR(PA.PROGRAMA,15,	1)>='1'    	AND	SUBSTR(PA.PROGRAMA,15,	1)<='3')  ")
+				.append(" 	SUBSTR(PA.PROGRAMA, 15, 1) IN ('1','2','5')  ")
 				.append(" WHERE SUBSTR(PA.PARTIDA,2,3) = '000') )   )  ");
 		if (pesos != 1) {
 			sqlMiles.append(
@@ -134,6 +144,7 @@ public class ClasificacionAdministrativaMB extends ReportePeriodos {
 			sql.insert(0, sqlMiles);
 			sql.append(")T2");
 		}
+		System.out.println(sql);
 
 		return sql.toString();
 	}
