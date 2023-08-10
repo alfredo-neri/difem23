@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EstadoCambiosSitFin" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e91234fc-404f-494f-8ca7-dcccd70a7034">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DIF22"/>
@@ -63,7 +63,7 @@
 		<groupExpression><![CDATA[$F{GRUPO2}]]></groupExpression>
 		<groupHeader>
 			<band height="13">
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="0" y="0" width="555" height="13" uuid="08849e91-e641-4645-a8bb-8e2acc034713">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -79,7 +79,7 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="13">
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="0" y="0" width="351" height="13" uuid="a9478f0d-2aaf-4a27-b53d-77e427287e5c">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -91,7 +91,7 @@
 					</box>
 					<textFieldExpression><![CDATA["Total: "+$F{NOMBRE_G2}]]></textFieldExpression>
 				</textField>
-				<textField pattern="#,##0.###">
+				<textField pattern="#,##0.###" isBlankWhenNull="true">
 					<reportElement x="351" y="0" width="100" height="13" uuid="9364bb13-059d-4cd3-b827-dcc507c80f56">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="693b4539-e472-4c02-bff4-612454ff0600"/>
 					</reportElement>
@@ -104,7 +104,7 @@
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{TOTAL_ORIGEN_G1}]]></textFieldExpression>
 				</textField>
-				<textField pattern="#,##0.###">
+				<textField pattern="#,##0.###" isBlankWhenNull="true">
 					<reportElement x="451" y="0" width="104" height="13" uuid="9542f05d-9d91-40cf-85b5-b3b0d3c19984">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3c436b07-1542-4b46-9baa-def825ded2d4"/>
 					</reportElement>
@@ -124,7 +124,7 @@
 		<groupExpression><![CDATA[$F{GRUPO1}]]></groupExpression>
 		<groupHeader>
 			<band height="13">
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="0" y="0" width="555" height="13" uuid="e9d1e120-14be-422f-a6bf-0545380071db">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -140,7 +140,7 @@
 		</groupHeader>
 		<groupFooter>
 			<band height="13">
-				<textField>
+				<textField isBlankWhenNull="true">
 					<reportElement x="0" y="0" width="351" height="13" uuid="7dbcd1ad-d2e7-4f26-8626-2882864d0e88">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -152,7 +152,7 @@
 					</box>
 					<textFieldExpression><![CDATA["Total: "+$F{NOMBRE_G1}]]></textFieldExpression>
 				</textField>
-				<textField pattern="#,##0.###">
+				<textField pattern="#,##0.###" isBlankWhenNull="true">
 					<reportElement x="351" y="0" width="100" height="13" uuid="ddf8e13f-5901-4a92-afdd-7fda7ba2dcbe">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="693b4539-e472-4c02-bff4-612454ff0600"/>
 					</reportElement>
@@ -165,7 +165,7 @@
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$V{SUB_TOTAL_ORIGEN_G1}]]></textFieldExpression>
 				</textField>
-				<textField pattern="#,##0.###">
+				<textField pattern="#,##0.###" isBlankWhenNull="true">
 					<reportElement x="451" y="0" width="104" height="13" uuid="802f372a-ce24-4e6e-b85e-95d9f1e8598a">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3c436b07-1542-4b46-9baa-def825ded2d4"/>
 					</reportElement>
@@ -284,7 +284,7 @@
 	<detail>
 		<band height="13" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="351" height="13" uuid="3f9a44bf-e8f4-4b25-8348-cdbebb66633c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f931d546-dec6-4f89-b80f-59c8bf2bd0bf"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -297,7 +297,7 @@
 				</box>
 				<textFieldExpression><![CDATA[$F{NOMBRE}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.###">
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
 				<reportElement x="351" y="0" width="100" height="13" uuid="2e1e1ffb-6707-4b8a-a9f9-12f3489fef74">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="693b4539-e472-4c02-bff4-612454ff0600"/>
 				</reportElement>
@@ -310,7 +310,7 @@
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{ORIGEN}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.###">
+			<textField pattern="#,##0.###" isBlankWhenNull="true">
 				<reportElement x="451" y="0" width="104" height="13" uuid="d507d1e3-419e-4784-bb14-314152f30356">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3c436b07-1542-4b46-9baa-def825ded2d4"/>
 				</reportElement>

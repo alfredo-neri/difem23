@@ -14,6 +14,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.apache.commons.lang3.StringUtils;
+
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -26,42 +28,40 @@ import com.gem.sistema.business.service.reportador.ReportValidationException;
 import com.gem.sistema.util.Constants;
 import com.gem.sistema.util.ConstantsClaveEnnum;
 
-@ManagedBean(name = "clasificacionObjGastoMB")
+@ManagedBean(name = "CNC_ClasificacionAdministrativaMB")
 @ViewScoped
-public class ClasificacionObjGastoMB extends ReportePeriodos {
-
-	private String pathName;
-	InputStream stream = null;
-	private Integer noDecimales = 2;
-	private Integer pesos = 1;
-
+public class CNC_ClasificacionAdministrativaMB extends ReportePeriodos {
+	final static private String VW1="VI_CLASIFICACION_ECONOMICA_T1";
+	final static private String VW2="VI_CLASIFICACION_ECONOMICA_T2";
+	final static private String VW3="VI_CLASIFICACION_ECONOMICA_T3";
+	final static private String VW4="VI_CLASIFICACION_ECONOMICA_T4";
 	private String fileName;
 	private StreamedContent file;
+	private Integer noDecimales = 2;
+	private Integer pesos = 1;
+	@ManagedProperty("#{conctbRepository}")
+	private ConctbRepository conctbRepository;
 
 	@ManagedProperty("#{puestosFirmasService}")
 	private PuestosFirmasService puestosFirmasService;
-
-	@ManagedProperty("#{conctbRepository}")
-	private ConctbRepository conctbRepository;
 
 	@ManagedProperty("#{generaTxtFilesService}")
 	private GeneraTxtFilesService txtFilesService;
 
 	@PostConstruct
 	public void init() {
-		jasperReporteName = "ClasificacionObjGasto";
+		jasperReporteName = "CNC_ClasificacionAdministrativa";
 		endFilename = jasperReporteName + ".pdf";
 		changePeriodo();
 	}
 
 	@Override
 	public Map<String, Object> getParametersReports() throws ReportValidationException {
-
 		Integer idSector = this.getUserDetails().getIdSector();
 		Map<String, Object> parameters = new java.util.HashMap<String, Object>();
 		Conctb conctb = conctbRepository.findByIdsector(idSector);
 		TrPuestoFirma firma = new TrPuestoFirma();
-
+		String pSql=StringUtils.EMPTY;
 		parameters.put("municipio", conctb.getNomDep());
 		parameters.put("imagen", conctb.getImagePathLeft());
 		parameters.put("imagen2", conctb.getImagePathRigth());
@@ -69,59 +69,59 @@ public class ClasificacionObjGastoMB extends ReportePeriodos {
 		parameters.put("lastMonth", getNombreMesSelected().toUpperCase());
 		parameters.put("lastDay", getLastDayByAnoEmp(getMesSelected(), conctb.getAnoemp()));
 		parameters.put("anio", conctb.getAnoemp());
-
 		parameters.put("decimalFormat", "%,." + noDecimales + "f");
 		parameters.put("pPesos", pesos);
 
 		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F08.getValue());
+		parameters.put("pL2", firma.getPuesto().getPuesto());
 		parameters.put("firmaN2", firma.getNombre());
 		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F09.getValue());
+		parameters.put("pL3", firma.getPuesto().getPuesto());
 		parameters.put("firmaN3", firma.getNombre());
 		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F11.getValue());
+		parameters.put("pL4", firma.getPuesto().getPuesto());
 		parameters.put("firmaN4", firma.getNombre());
-
-		parameters.put("sql", this.generateSQL(this.getUserDetails().getIdSector()));
-
+		pSql="SELECT  SUM(APROBADO) APROBADO,\r\n"
+				+ " SUM(AMPLIACION_REDU) AMPL_REDU,\r\n"
+				+ " SUM(MODIFICADO)MODIFICADO,\r\n"
+				+ " SUM(DEVENGADO) DEVENGADO,\r\n"
+				+ " SUM(PAGADO) PAGADO,\r\n"
+				+ " SUM(SUBEJERCIDO) SUBEJERCICIO\r\n"
+				+ " FROM ";
+		switch (periodo.getPeriodo()) {
+		      case 1:
+		          pSql=pSql+VW1;
+		          break;
+		      case 2:
+		    	  pSql=pSql+ VW2;
+		          break;
+		      case  3:
+		    	  pSql=pSql+ VW3;
+		           break;
+		      case 4:
+		    	  pSql=pSql+VW4;
+		            break;   
+		      }
+		
+		parameters.put("sql", pSql);
+		
+		System.out.println(pSql.toString());
 		return parameters;
 	}
 
-	public StreamedContent getFile() {
-
-		Conctb conctb = conctbRepository.findByIdsector(this.getUserDetails().getIdSector());
-
-		fileName = "EAEPECOGLDF" + conctb.getClave() + conctb.getAnoemp() + "0" + periodo.getPeriodo() + ".txt";
-		InputStream stream = null;
-		try {
-			stream = new FileInputStream(this.txtFilesService
-					.generaArtivoTxtLDFObjGasto(this.generateSQL(this.getUserDetails().getIdSector()), fileName));
-		} catch (FileNotFoundException ex) {
-
-		}
-		file = new DefaultStreamedContent(stream, Constants.APPLICCTION_TXT, fileName);
-		generateNotificationFront(FacesMessage.SEVERITY_INFO, "Info!", "Se Generó el Archivo: " + fileName);
-		return file;
-	}
-
-	@Override
-	public StreamedContent generaReporteSimple(int type) throws ReportValidationException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private String generateSQL(Integer sector) {
+	private String generateSql(Integer idSector) {
 		StringBuilder sql = new StringBuilder();
 		StringBuilder sqlMiles = new StringBuilder();
-
 		String auto = "SUM(";
 		String ejpa = "SUM(";
 		String redu = "SUM(";
 		String ejxpa = "SUM(";
 		String ampli = "SUM(";
-
+		 
 		for (int y = getMesInicial(); y <= getMesSelected(); y++) {
 			ejpa = ejpa + " PA.EJPA1_" + y + " +";
 			redu = redu + " PA.REDU1_" + y + " +";
-			ejxpa = ejxpa + " PA.TOEJE1_" + y + " +";
+			ejxpa = ejxpa + " PA.EJXPA1_" + y + " +";
 			ampli = ampli + " PA.AMPLI1_" + y + " +";
 		}
 
@@ -135,37 +135,16 @@ public class ClasificacionObjGastoMB extends ReportePeriodos {
 		ejxpa = ejxpa.substring(0, ejxpa.length() - 2) + " ) DEVENGADO, ";
 		ampli = ampli.substring(0, ampli.length() - 2) + " ) AMPLIACION ";
 
-		sql.append(" SELECT * FROM (SELECT GRUP,	CLVGAS,	NOMGAS, ")
-		        .append(" 	DECODE(APROBADO,NULL,0,DECODE(GRUP,2,DECODE(SUBSTR(CLVGAS,1,1),'4',AMPL_REDU,APROBADO),APROBADO))APROBADO, ")
-				.append(" 	DECODE(AMPL_REDU,NULL,0,DECODE(GRUP,2,DECODE(SUBSTR(CLVGAS,1,1),'4',APROBADO,AMPL_REDU),AMPL_REDU))AMPL_REDU, ")
-				.append(" 	DECODE(MODIFICADO,NULL,0,MODIFICADO)MODIFICADO, ")
-				.append(" 	DECODE(DEVENGADO,NULL,0,DEVENGADO)DEVENGADO, ")
-				.append(" 	DECODE(PAGADO,NULL,0,PAGADO)PAGADO, ")
-				.append(" 	DECODE(SUBEJERCICIO,NULL,0,SUBEJERCICIO)SUBEJERCICIO,ROW_NUMBER() OVER(PARTITION BY SUBSTR(CLVGAS,1,1),GRUP) ROW_OF_TOTAL ")
-				.append(" FROM( ")
-				.append(" SELECT GRUP,	CLVGAS,	NOMGAS,	DECODE(SUBSTR (CLVGAS,1,1),'6',(AMPLIACION -REDUCCIONES),APROBADO) APROBADO,\r\n"
-						+ "	                DECODE(SUBSTR (CLVGAS,1,1),'6',APROBADO,(AMPLIACION -REDUCCIONES)) AMPL_REDU,  ")
-				.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) MODIFICADO,DEVENGADO,	PAGADO,  ")
-				.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) - DEVENGADO SUBEJERCICIO  ")
-				.append(" FROM ((SELECT 2 GRUP,NAT.CLVGAS,	NAT.NOMGAS,                                       ")
-				.append(auto).append(ejpa).append(redu).append(ejxpa).append(ampli)
-				.append(" 	FROM NATGAS NAT LEFT JOIN PASO PA  ON   ")
-				.append(" 		NAT.CLVGAS = PA.PARTIDA AND NAT.IDSECTOR = PA.IDSECTOR   ")
-				.append(" 		AND	PA.IDSECTOR = 2 	AND (SUBSTR(PA.PROGRAMA, 15, 1)>='3'   ")
-				.append(" 		AND	SUBSTR(PA.PROGRAMA, 15, 1)<='5')     AND PA.PROGRAMA<>'040401010101265' ")
-				.append(" 	WHERE	SUBSTR(NAT.CLVGAS, 3, 2) = '00'   ").append(" 	GROUP BY NAT.CLVGAS,NAT.NOMGAS  ")
-				.append(" 	ORDER BY NAT.CLVGAS ASC)  ").append(" UNION ALL  ")
-				.append(" (SELECT 1 GRUP, NAT.CLVGAS,	NAT.NOMGAS,  											")
-				.append(auto).append(ejpa).append(redu).append(ejxpa).append(ampli)
-				.append(" 	FROM NATGAS NAT 	LEFT JOIN PASO PA  ON 	  ")
-				.append(" 		NAT.CLVGAS = PA.PARTIDA AND NAT.IDSECTOR = PA.IDSECTOR   ")
-				.append(" 		AND	PA.IDSECTOR = ").append(sector).append(" AND SUBSTR(PA.PROGRAMA, 15, 1) IN ('1','2','5')  ")
-				.append(" 	WHERE	SUBSTR(NAT.CLVGAS, 3, 2) = '00'   ").append(" 	GROUP BY NAT.CLVGAS,NAT.NOMGAS  ")
-				.append(" 	ORDER BY NAT.CLVGAS ASC)  ").append(" )  )ORDER BY GRUP ASC)");
-		System.out.println(sql.toString());
+		sql.append(" SELECT 	APROBADO,  	(AMPLIACION -REDUCCIONES) AMPL_REDU,   ")
+				.append(" 	(APROBADO + (AMPLIACION -REDUCCIONES)) MODIFICADO,  ").append(" 	DEVENGADO,	PAGADO,   ")
+				.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) - DEVENGADO SUBEJERCICIO ").append(" FROM (SELECT ")
+				.append(auto).append(ejpa).append(redu).append(ejxpa).append(ampli).append(" FROM CATDEP D  ")
+				.append(" 	    LEFT JOIN PASO PA  ").append("       ON PA.CLAVE = D.CLVDEP ")
+				.append(" 		AND  	D.IDSECTOR = PA.IDSECTOR  ").append(" 		AND   	PA.IDSECTOR = 2 ")
+				.append(" WHERE SUBSTR(PA.PARTIDA,2,3) = '000') T1    ");
+		
 		if (pesos != 1) {
-			sqlMiles.append(
-					"SELECT T2.GRUP,T2.CLVGAS , T2.NOMGAS, 	(T2.APROBADO /1000) APROBADO,(T2.AMPL_REDU /1000) AMPL_REDU,				")
+			sqlMiles.append("SELECT 	(T2.APROBADO /1000) APROBADO,(T2.AMPL_REDU /1000) AMPL_REDU,				")
 					.append("	(T2.MODIFICADO /1000) MODIFICADO,(T2.DEVENGADO/1000) DEVENGADO,  ")
 					.append("	(T2.PAGADO/1000) PAGADO,(T2.SUBEJERCICIO /1000) SUBEJERCICIO               ")
 					.append("FROM(                                                                                                      ");
@@ -176,20 +155,24 @@ public class ClasificacionObjGastoMB extends ReportePeriodos {
 		return sql.toString();
 	}
 
-	public String getPathName() {
-		return pathName;
+	public StreamedContent getFile() {
+		Conctb conctb = conctbRepository.findByIdsector(this.getUserDetails().getIdSector());
+
+		fileName = "EAEPECALDF" + conctb.getClave() + conctb.getAnoemp() + "0" + periodo.getPeriodo() + ".txt";
+		InputStream stream = null;
+		try {
+			stream = new FileInputStream(this.txtFilesService.generaArtivoTxtLDFClasifAdminitrativa(
+					this.generateSql(this.getUserDetails().getIdSector()), fileName));
+		} catch (FileNotFoundException ex) {
+
+		}
+		file = new DefaultStreamedContent(stream, Constants.APPLICCTION_TXT, fileName);
+		generateNotificationFront(FacesMessage.SEVERITY_INFO, "Info!", "Se Generó el Archivo: " + fileName);
+		return file;
 	}
 
-	public void setPathName(String pathName) {
-		this.pathName = pathName;
-	}
-
-	public InputStream getStream() {
-		return stream;
-	}
-
-	public void setStream(InputStream stream) {
-		this.stream = stream;
+	public void setFile(StreamedContent file) {
+		this.file = file;
 	}
 
 	public String getFileName() {
@@ -200,10 +183,6 @@ public class ClasificacionObjGastoMB extends ReportePeriodos {
 		this.fileName = fileName;
 	}
 
-	public void setFile(StreamedContent file) {
-		this.file = file;
-	}
-
 	public GeneraTxtFilesService getTxtFilesService() {
 		return txtFilesService;
 	}
@@ -212,20 +191,20 @@ public class ClasificacionObjGastoMB extends ReportePeriodos {
 		this.txtFilesService = txtFilesService;
 	}
 
-	public PuestosFirmasService getPuestosFirmasService() {
-		return puestosFirmasService;
-	}
-
-	public void setPuestosFirmasService(PuestosFirmasService puestosFirmasService) {
-		this.puestosFirmasService = puestosFirmasService;
-	}
-
 	public ConctbRepository getConctbRepository() {
 		return conctbRepository;
 	}
 
 	public void setConctbRepository(ConctbRepository conctbRepository) {
 		this.conctbRepository = conctbRepository;
+	}
+
+	public PuestosFirmasService getPuestosFirmasService() {
+		return puestosFirmasService;
+	}
+
+	public void setPuestosFirmasService(PuestosFirmasService puestosFirmasService) {
+		this.puestosFirmasService = puestosFirmasService;
 	}
 
 	public Integer getNoDecimales() {

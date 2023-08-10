@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:body>
+	<ui:composition template="/WEB-INF/layout/layout.xhtml">
+		<ui:define name="content">
+			<h:form id="form1">
+				<p:growl id="growlReportador" showDetail="true" sticky="true"></p:growl>
+				<p:panel id="panelReporte"
+					header="Estado Analítico del Ejercicio del Presupuesto de Egresos Clasificación Funcional (Finalidad y Función)"
+					styleClass="green col-md-9 col-centered row-centered shadow-panel">
+					<p:panelGrid columns="2" styleClass="col-centered ui-noborder">
+						<p:selectBooleanCheckbox value="#{CNCfinalidadFuncionMB.acumulado}"
+							style="	display: flex;	align-items: center;	justify-items: center;"
+							itemLabel="Acumulado" />
+						<p:selectOneButton value="#{CNCfinalidadFuncionMB.tipoPeriodo}">
+							<f:selectItems value="#{CNCfinalidadFuncionMB.tiposPeridos}" var="p"
+								itemValue="#{p}" itemLabel="#{p}" />
+							<p:ajax event="change"
+								listener="#{CNCfinalidadFuncionMB.changePeriodo}"
+								update="panelReporte" />
+						</p:selectOneButton>
+					</p:panelGrid>
+					<p:panelGrid columns="9" styleClass="col-centered ui-noborder">
+						<h:outputText value="Periodo: " for="trim"
+							rendered="#{not empty CNCfinalidadFuncionMB.periodos}" />
+						<p:selectOneMenu id="trim" editable="false"
+							converter="genericConverter"
+							rendered="#{!CNCfinalidadFuncionMB.periodos.isEmpty()}"
+							value="#{CNCfinalidadFuncionMB.periodo}">
+							<f:selectItems value="#{CNCfinalidadFuncionMB.periodos}" var="p"
+								itemValue="#{p}" itemLabel="#{p.descripcion}" />
+						</p:selectOneMenu>
+						<h:outputText value="No. Decimales:" for="noDecimales" />
+						<p:selectOneMenu id="noDecimales" size="18" editable="false"
+							value="#{CNCfinalidadFuncionMB.noDecimales}">
+							<f:selectItem itemValue="1" itemLabel="1" />
+							<f:selectItem itemValue="2" itemLabel="2" />
+							<f:selectItem itemValue="3" itemLabel="3" />
+							<f:selectItem itemValue="4" itemLabel="4" />
+							<f:selectItem itemValue="5" itemLabel="5" />
+						</p:selectOneMenu>
+
+						<p:selectOneMenu id="miles" size="18" editable="false"
+							value="#{CNCfinalidadFuncionMB.pesos}">
+							<f:selectItem itemValue="1" itemLabel="Pesos" />
+							<f:selectItem itemValue="2" itemLabel="Miles de Pesos" />
+						</p:selectOneMenu>
+						<p:panelGrid columns="4" styleClass="ui-noborder">
+
+							<p:commandButton id="generateportepdf"
+								onstart="PF('blockUIWidget').block()"
+								oncomplete="PF('blockUIWidget').unblock()"
+								action="#{CNCfinalidadFuncionMB.createFilePdfInline}"
+								value="Correcto"
+								update="form1:inlinePdf, :form1:growlReportador"
+								styleClass="btn btn-default">
+							</p:commandButton>
+							<h:commandLink onclick="PrimeFaces.monitorDownload(start, stop);"
+								title="EXCEL">
+								<p:graphicImage value="../reports/excel.png" width="24" />
+								<p:fileDownload value="#{CNCfinalidadFuncionMB.fileXls}" />
+							</h:commandLink>
+
+						</p:panelGrid>
+					</p:panelGrid>
+
+
+					<p:panel id="inlinePdf" style="border:0px"
+						visible="#{CNCfinalidadFuncionMB.uuid ne null}">
+
+						<object type="application/pdf"
+							data="#{request.contextPath}/GetFileInline?uuid=#{CNCfinalidadFuncionMB.uuid}&amp;filename=#{CNCfinalidadFuncionMB.endFilename}"
+							height="380px" width="100%"> Tu browser no puede
+							desplegar el PDF. </object>
+
+					</p:panel>
+
+				</p:panel>
+				<pe:blockUI widgetVar="blockUIWidget" centerX="false">
+					<h:panelGrid columns="2">
+						<h:graphicImage value="../reports/indice.png"
+							style="margin-right: 12px; vertical-align: middle;" />
+						<h:outputText value="Por favor espere..."
+							style="white-space: nowrap;" />
+					</h:panelGrid>
+				</pe:blockUI>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

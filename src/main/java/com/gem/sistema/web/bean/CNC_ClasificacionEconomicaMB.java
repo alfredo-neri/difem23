@@ -1,5 +1,7 @@
 package com.gem.sistema.web.bean;
 
+
+
 import static com.roonin.utils.UtilDate.getLastDayByAnoEmp;
 
 import java.util.HashMap;
@@ -9,8 +11,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.gem.sistema.business.domain.Conctb;
 import com.gem.sistema.business.domain.TrPuestoFirma;
@@ -23,13 +23,10 @@ import com.gem.sistema.util.ConstantsClaveEnnum;
  * @author Alfredo Neri
  *
  */
-@ManagedBean(name = "cPClasificacionEconomicaMB")
+@ManagedBean(name = "CNC_ClasificacionEconomicaMB")
 @ViewScoped
-public class CPClasificacionEconomicaMB extends ReportePeriodos {
-	final static private String VW1="VI_CLASIFICACION_ECONOMICA_T1";
-	final static private String VW2="VI_CLASIFICACION_ECONOMICA_T2";
-	final static private String VW3="VI_CLASIFICACION_ECONOMICA_T3";
-	final static private String VW4="VI_CLASIFICACION_ECONOMICA_T4";
+public class CNC_ClasificacionEconomicaMB extends ReportePeriodos {
+
 	private String reporte;
 	private Integer noDecimales;
 	private Integer pesos;
@@ -48,7 +45,7 @@ public class CPClasificacionEconomicaMB extends ReportePeriodos {
 		noDecimales = 2;
 		reporte = "G";
 		pesos = 1;
-		jasperReporteName = "CNC_CPClasificacionEconomica";
+		jasperReporteName = "CNC_ClasificacionEconomica";
 		endFilename = jasperReporteName + ".pdf";
 		changePeriodo();
 	}
@@ -64,27 +61,11 @@ public class CPClasificacionEconomicaMB extends ReportePeriodos {
 		Integer sector = this.getUserDetails().getIdSector();
 		TrPuestoFirma firma = null;
 		Conctb conctb = conctbRepository.findByIdsector(sector);
-		String pSql=StringUtils.EMPTY;
+
 		parameters.put("decimalFormat", "%,." + noDecimales + "f");
 		parameters.put("imagePath", conctb.getImagePathRigth());
 		parameters.put("entidadName", conctb.getNomDep());
-		pSql="SELECT TIPO,NOMGAS,APROBADO,AMPLIACION_REDU AMPLI_REDU,MODIFICADO,DEVENGADO,PAGADO,SUBEJERCIDO SUBEJERCICIO FROM ";
-		switch (periodo.getPeriodo()) {
-		      case 1:
-		          pSql=pSql+VW1;
-		          break;
-		      case 2:
-		    	  pSql=pSql+ VW2;
-		          break;
-		      case  3:
-		    	  pSql=pSql+ VW3;
-		           break;
-		      case 4:
-		    	  pSql=pSql+VW4;
-		            break;   
-		      }
-		pSql=pSql+" ORDER BY TIPO ASC";
-		parameters.put("query", pSql);
+		parameters.put("query", this.generaQuery());
 		parameters.put("tipoReporte", reporte);
 		parameters.put("pesos", pesos);
 		parameters.put("year", conctb.getAnoemp());
@@ -221,6 +202,7 @@ public class CPClasificacionEconomicaMB extends ReportePeriodos {
 							+ "		)T2\r\n"
 							+ "GROUP BY TIPO, DECODE(TIPO, 1, 'GASTO CORRIENTE', 2, 'GASTO DE CAPITAL', 3, 'AMORTIZACION DE LA DEUDA Y DISMINUCION DE LOS PASIVOS', 4, 'PENSIONES Y JUBILACIONES', 5, 'PARTICIPACIONES'),\r\n"
 							+ "SUBSTR(PARTIDA,4), '' \r\n" + "ORDER BY TIPO");
+			System.out.println(query.toString());
 		} else {
 			query.append(
 					"SELECT TIPO, DECODE(TIPO, 1, 'GASTO CORRIENTE', 2, 'GASTO DE CAPITAL', 3, 'AMORTIZACION DE LA DEUDA Y DISMINUCION DE LOS PASIVOS', 4, 'PENSIONES Y JUBILACIONES', 5, 'PARTICIPACIONES') TIPO_NAME,\r\n"
@@ -241,7 +223,7 @@ public class CPClasificacionEconomicaMB extends ReportePeriodos {
 							+ "PARTIDA, NOMGAS\r\n" + "ORDER BY TIPO, PARTIDA");
 			System.out.println(query.toString());
 		}
-
+		System.out.println(query.toString());
 		if (pesos != 1) {
 			query.insert(0,
 					"SELECT TIPO, TIPO_NAME, PARTIDA, NOMGAS, (APROBADO/1000) APROBADO, (AMPLI_REDU/1000) AMPLI_REDU, (MODIFICADO/1000) MODIFICADO, (COMPROMETIDO/1000) COMPROMETIDO, (DEVENGADO/1000) DEVENGADO, (EJERCIDO/1000) EJERCIDO, (PAGADO/1000) PAGADO, (SUBEJERCICIO/1000) SUBEJERCICIO FROM( ");
@@ -292,3 +274,4 @@ public class CPClasificacionEconomicaMB extends ReportePeriodos {
 	}
 
 }
+
