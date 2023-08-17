@@ -35,7 +35,7 @@ import com.roonin.utils.UtilDate;
 
 @ManagedBean(name = "eaidMB")
 @ViewScoped
-public class EaidMB extends BaseDirectReport {
+public class EaidMB extends ReportePeriodos{
 
 	private static final Log LOG = LogFactory.getLog(EaidMB.class);
 
@@ -102,10 +102,13 @@ public class EaidMB extends BaseDirectReport {
 	private List<TcPeriodo> listPeriodo;
 
 	private DataModelGeneric<Eaid> dataModelEaid;
-
+	private Integer noDecimales;
+	private Integer pesos;
 	@PostConstruct
 	public void init() {
 		LOG.info("INICIA EL PROCESO DE CAPTURA DE EAID");
+		noDecimales = 2;
+		pesos = 1;
 		jasperReporteName = "EAID";
 		endFilename = jasperReporteName + ".pdf";
 		this.setIdSector(this.getUserDetails().getIdSector());
@@ -117,6 +120,337 @@ public class EaidMB extends BaseDirectReport {
 
 		this.iniciarlizarbandera();
 		this.loadData();
+
+	}
+	@Override
+	public Map<String, Object> getParametersReports() throws ReportValidationException {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		Conctb conctb = conctbRepository.findByIdsector(this.getUserDetails().getIdSector());
+		Integer sector = this.getUserDetails().getIdSector();
+		TrPuestoFirma firma = null;
+		Object[] meses = this.getMonths(trimestre, conctb.getAnoemp());
+
+		parameters.put("pMesInicial", meses[0]);
+		parameters.put("pMesFinal", meses[1]);
+		parameters.put("pLastDay", meses[2]);
+		parameters.put("pYear", conctb.getAnoemp());
+		parameters.put("pNombreMunicipio", conctb.getNomDep());
+		parameters.put("pImagen1", conctb.getImagePathLeft());
+		parameters.put("pImagen2", conctb.getImagePathRigth());
+		parameters.put("trimestre", trimestre);
+		parameters.put("idSector", sector);
+		parameters.put("sql", this.generaQuery(sector));
+		
+		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F08.getValue());
+		parameters.put("pL2", firma.getPuesto().getPuesto());
+		parameters.put("pN2", firma.getNombre());
+		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F09.getValue());
+		parameters.put("pL3", firma.getPuesto().getPuesto());
+		parameters.put("pN3", firma.getNombre());
+		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F11.getValue());
+		parameters.put("pL4", firma.getPuesto().getPuesto());
+		parameters.put("pN4", firma.getNombre());
+
+		parameters.put("trimestre", trimestre);
+		return parameters;
+	}
+
+	public String generaQuery(Integer idsector) {
+
+		StringBuilder sSql1 = new StringBuilder();
+		StringBuilder sqlMiles = new StringBuilder();
+		
+		sSql1.append("SELECT GRUP, NIVEL,TIPO,NOMCTA,ESTIMADO,AMPLIACION_REDUCCION,MODIFICADO,DEVENGADO,RECAUDADO,DIFERENCIA  "
+				+ "    FROM ( "
+				+ "	SELECT 1 GRUP,NIVEL, TIPO,NOMCTA,ESTIMADO,AMPLIACION_REDUCCION,MODIFICADO,DEVENGADO,RECAUDADO,DIFERENCIA  "
+				+ "         FROM ( "
+				+ "             SELECT 0 NIVEL,0 TIPO ,('Ingresos de Libre Disposición')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "             SELECT 1 NIVEL,1 TIPO ,('  A. Impuestos')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "             SELECT 1 NIVEL,2 TIPO ,('  B. Cuotas y Aportaciones de Seguridad Social')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "             SELECT 1 NIVEL,3 TIPO ,('  C. Contribuciones de Mejoras')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "             SELECT 1 NIVEL,4 TIPO ,('  D. Derechos')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "             SELECT 1 NIVEL, 5 TIPO ,('  E. Productos') NOMCTA , T1.SALINI ESTIMADO, "
+				+ "                     FN_GET_AMPREDU_EFG("+trimestre+",'8110', '4151') AMPLIACION_REDUCCION, "
+				+ "                     T1.SALINI+FN_GET_AMPREDU_EFG("+trimestre+",'8110', '4151') MODIFICADO, "
+				+ "                     T1.DEVENGADO, "
+				+ "                     T1.RECAUDADO, "
+				+ "                     T1.SALINI+FN_GET_AMPREDU_EFG("+trimestre+",'8110', '4151') -  T1.DEVENGADO DIFERENCIA "
+				+ "                  FROM ( "
+				+ "                        SELECT 5 TIPO,NOMCTA,SALINI, 0 AMPLIACION_REDUCCION, "
+				+ "                           0 MODIFICADO, "
+				+ "                           FN_GET_DEVREC_ING("+trimestre+",'8150', '4151')DEVENGADO, "
+				+ "                           FN_GET_DEVREC_ING("+trimestre+",'8150', '4151') RECAUDADO "
+				+ "                         FROM CUENTA CU "
+				+ "                         WHERE  CU.CUENTA IN ('8110') "
+				+ "                                AND SUBSTR(SCTA, 7,4) IN( '4151') "
+				+ "                                AND SSCTA=''  "
+				+ "                       ) T1 "
+				+ "        UNION ALL "
+				+ "                SELECT 1 NIVEL, 6 TIPO ,('  F. Aprovechamientos') NOMCTA , T1.SALINI ESTIMADO, "
+				+ "                       T1.AMPLIACION_REDUCCION AMPLIACION_REDUCCION, "
+				+ "                       T1.SALINI+T1.AMPLIACION_REDUCCION MODIFICADO, "
+				+ "                       T1.DEVENGADO, "
+				+ "                       T1.RECAUDADO, "
+				+ "                       T1.SALINI- T1.DEVENGADO DIFERENCIA "
+				+ "                    FROM ( "
+				+ "                          SELECT 5 TIPO,NOMCTA,SALINI,  "
+				+ "                                 FN_GET_AMPL_REDU_APROVE("+trimestre+",'8110', '4399')  AMPLIACION_REDUCCION, "
+				+ "                                 0 MODIFICADO, "
+				+ "                                 FN_GET_DEVREC_ING("+trimestre+",'8150', '4399')DEVENGADO, "
+				+ "                                 FN_GET_DEVREC_ING("+trimestre+",'8150', '4399') RECAUDADO        "
+				+ "                           FROM CUENTA CU "
+				+ "                              WHERE  CU.CUENTA IN ('8110') "
+				+ "                                     AND SUBSTR(SCTA, 7,4) IN( '4399') "
+				+ "                                     AND SSCTA=''  "
+				+ "                          ) T1 "
+				+ "        UNION ALL "
+				+ "                SELECT 1 NIVEL, 7 TIPO ,('  G. Ingresos por Ventas de Bienes y Servicios') NOMCTA , T1.SALINI ESTIMADO, "
+				+ "                       FN_GET_AMPREDU_EFG("+trimestre+",'8110', '4173') AMPLIACION_REDUCCION, "
+				+ "                       T1.SALINI+FN_GET_AMPREDU_EFG("+trimestre+",'8110', '4173') MODIFICADO, "
+				+ "                       T1.DEVENGADO, "
+				+ "                       T1.RECAUDADO, "
+				+ "                       T1.SALINI -  T1.DEVENGADO DIFERENCIA "
+				+ "                    FROM ( "
+				+ "                          SELECT 5 TIPO,NOMCTA,SALINI, 0 AMPLIACION_REDUCCION, "
+				+ "                                 0 MODIFICADO, "
+				+ "                                 FN_GET_DEVREC_ING("+trimestre+",'8150', '4173')DEVENGADO, "
+				+ "                                 FN_GET_DEVREC_ING("+trimestre+",'8150', '4173') RECAUDADO "
+				+ "                               FROM CUENTA CU "
+				+ "                               WHERE  CU.CUENTA IN ('8110') "
+				+ "                                     AND SUBSTR(SCTA, 7,4) IN( '4173') "
+				+ "                                     AND SSCTA=''  "
+				+ "                         ) T1 "
+				+ "        UNION ALL "
+				+ "               SELECT 1 NIVEL, 9 TIPO ,('  H. Participaciones   (H=h1+h2+h3+h4+h5+h6+h7+h8+h9+h10+h11)')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,10 TIPO ,('    h1) Fondo General de Participaciones ')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,11 TIPO ,('    h2) Fondo de Fomento Municipal ')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,12 TIPO ,('    h3) Fondo de Fiscalización y Recaudación ')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL, 13 TIPO ,('   h4) Fondo de Compensación ')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,14 TIPO ,('    h5) Fondo de Extracción de Hidrocarburos ')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,15 TIPO ,('    h6) Impuesto Especial Sobre Producción y Servicios ')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,16 TIPO ,('    h7) 0.136% de la Recaudación Federal Participable ')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,17 TIPO ,('    h8) 3.17% Sobre Extracción de Petróleo')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,18 TIPO ,('    h9) Gasolinas y Diésel ')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,19 TIPO ,('    h10) Fondo del Impuesto Sobre la Renta')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,20 TIPO ,('    h11) Fondo de Estabilización de los Ingresos de las Entidades Federativas')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 1 NIVEL,21 TIPO ,('  I. Incentivos Derivados de la Colaboración Fiscal (I=i1+i2+i3+i4+i5) ')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,22 TIPO ,('    i1) Tenencia o Uso de Vehículos')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,23 TIPO ,('    i2) Fondo de Compensación ISAN')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,24 TIPO ,('    i3) Impuesto Sobre Automóviles Nuevos')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,25 TIPO ,('    i4) Fondo de Compensación de Repecos-Intermedios')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 0 NIVEL,26 TIPO ,('    i5) Otros Incentivos Económicos')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "               SELECT 1 NIVEL,27 TIPO ,(' J. Transferencias') NOMCTA , "
+				+ "                       SUM(T2.ESTIMADO)+FN_GET_PAD_FTE3("+trimestre+") ESTIMADO, "
+				+ "                       (-1*FN_GET_AMPREDU_EFG("+trimestre+",'8110', '4173'))AMPLIACION_REDUCCION, "
+				+ "                       SUM(T2.ESTIMADO)+FN_GET_PAD_FTE3("+trimestre+")+(-1*FN_GET_AMPREDU_EFG("+trimestre+",'8110', '4173')) MODIFICADO, "
+				+ "                       FN_GET_DEVREC_TRANSFERENCIAS(1,'8150','4223') DEVENGADO, "
+				+ "                       FN_GET_DEVREC_TRANSFERENCIAS(1,'8150','4223') RECAUDADO, "
+				+ "                       SUM(T2.ESTIMADO)+FN_GET_PAD_FTE3("+trimestre+")- FN_GET_DEVREC_TRANSFERENCIAS("+trimestre+",'8150','4223')  DIFERENCIA "
+				+ "                 FROM ( "
+				+ "                       SELECT 27 TIPO,T1.NOMCTA,T1.SALINI ESTIMADO, "
+				+ "                              T1.AMPLIACION - T1.REDUCCIONES AMPLI_REDU, "
+				+ "                              (T1.SALINI + T1.AMPLIACION ) - T1.REDUCCIONES MODIFICADO, "
+				+ "                              T1.REDUCCIONES    +  T1.AMPLIACION DEVENGADO, "
+				+ "                              T1.REDUCCIONES    -  T1.AMPLIACION RECAUDADO "
+				+ "                           FROM  ( "
+				+ "                                SELECT 27 TIPO, CU.NOMCTA,CU.SALINI,0 AMPLIACION, 0 REDUCCIONES  "
+				+ "                                     FROM CUENTA CU "
+				+ "                                     WHERE  CU.CUENTA = '8110' "
+				+ "                                            AND SUBSTR(CU.SCTA, 7,4) IN( '4223') "
+				+ "                                            AND SUBSTR(CU.SSCTA,15,1)='1'  "
+				+ "                                            AND SUBSTR(CU.SSSCTA,4,1)='1' "
+				+ "                                            AND SUBSTR(CU.SSSSCTA,4,1) IN('1','2','4')  "
+				+ "                                   )T1 "
+				+ "                          )T2 "
+				+ "         UNION ALL "
+				+ "                 SELECT 1 NIVEL, 28 TIPO ,('  K. Convenios')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "         UNION ALL "
+				+ "                 SELECT 0 NIVEL,29 TIPO ,('    k1) Otros Convenios y Subsidios')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "         UNION ALL "
+				+ "                 SELECT 1 NIVEL,30 TIPO ,('  L. Otros Ingresos de Libre Disposición (L=l1+l2)')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "         UNION ALL "
+				+ "                 SELECT 0 NIVEL,31 TIPO ,('    l1) Participaciones en Ingresos Locales')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "         UNION ALL "
+				+ "                 SELECT 0 NIVEL,32 TIPO ,('    l2) Otros Ingresos de Libre Disposición')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "            ) "
+				
+				+ "   UNION ALL  "
+				+ "   SELECT 2 GRUP,NIVEL, TIPO,NOMCTA,ESTIMADO,AMPLIACION_REDUCCION,MODIFICADO,DEVENGADO,RECAUDADO,DIFERENCIA  "
+				+ "          FROM ( "
+				+ "                  SELECT 0 NIVEL,33 TIPO ,('Ingresos Excedentes de Ingresos de Libre Disposición')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "          UNION ALL "
+				+ "                  SELECT 0 NIVEL,34 TIPO ,('  Transferencias Federales Etiquetadas ')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "          UNION ALL "
+				+ "                  SELECT 1 NIVEL,35 TIPO ,(' A. Aportaciones (A=a1+a2+a3+a4+a5+a6+a7+a8)') NOMCTA , "
+				+ "                     T2.AMPLI_REDU  ESTIMADO, "
+				+ "                     T2.ESTIMADO AMPLIACION_REDUCCION, "
+				+ "                     T2.MODIFICADO, "
+				+ "                     T2.DEVENGADO, "
+				+ "                     T2.RECAUDADO, "
+				+ "                     T2.MODIFICADO - T2.RECAUDADO DIFERENCIA "
+				+ "                  FROM ( "
+				+ "                       SELECT 35 TIPO,T1.NOMCTA,T1.SALINI ESTIMADO, "
+				+ "                               T1.AMPLI_REDU AMPLI_REDU, "
+				+ "                              (T1.SALINI + AMPLI_REDU) MODIFICADO, "
+				+ "                               T1.DEVENGADO DEVENGADO, "
+				+ "                               T1.RECAUDADO RECAUDADO "
+				+ "                            FROM  ( "
+				+ "                                  SELECT 35 TIPO, CU.NOMCTA,CU.SALINI, FN_GET_AMPRED_Aab_INGRESOS("+trimestre+",'8110','4223','5') AMPLI_REDU, "
+				+ "                                      0 MODIFICADO, "
+				+ "                                      FN_GET_DEVREC_NIVEL5("+trimestre+",'8140','4223','5') DEVENGADO, "
+				+ "                                      FN_GET_DEVREC_NIVEL5("+trimestre+",'8140','4223','5') RECAUDADO "
+				+ "                                   FROM CUENTA CU "
+				+ "                                   WHERE  CU.CUENTA = '8110' "
+				+ "                                          AND SUBSTR(CU.SCTA, 7,4) IN( '4223') "
+				+ "                                          AND SUBSTR(CU.SSCTA,15,1)='1'  "
+				+ "                                          AND SUBSTR(CU.SSSCTA,4,1)='1' "
+				+ "                                          AND SUBSTR(CU.SSSSCTA,4,1) IN('5')  "
+				+ "                                )T1 "
+				+ "                          )T2 "
+				+ "       UNION ALL "
+				+ "               SELECT 0 NIVEL, 36 TIPO ,('    a1) Fondo de Aportaciones para la Nómina Educativa y Gasto Operativo')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "       UNION ALL "
+				+ "               SELECT 0 NIVEL,37 TIPO ,('    a2) Fondo de Aportaciones para los Servicios de Salud')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "       UNION ALL "
+				+ "               SELECT 0 NIVEL,38 TIPO ,('    a3) Fondo de Aportaciones para la Infraestructura Social')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "       UNION ALL "
+				+ "               SELECT 0 NIVEL,39 TIPO ,('    a4) Fondo de Aportaciones para el Fortalecimiento de los Municipios y de las Demarcaciones Territoriales del Distrito Federal')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "       UNION ALL "
+				+ "               SELECT 0 NIVEL,40 TIPO ,('    a5) Fondo de Aportaciones Múltiples')NOMCTA,  "
+				+ "                     T2.AMPLI_REDU  ESTIMADO, "
+				+ "                     T2.ESTIMADO AMPLIACION_REDUCCION, "
+				+ "                     T2.MODIFICADO, "
+				+ "                     T2.DEVENGADO, "
+				+ "                     T2.RECAUDADO, "
+				+ "                     T2.MODIFICADO - T2.RECAUDADO DIFERENCIA "
+				+ "              FROM ( "
+				+ "                    SELECT 35 TIPO,T1.NOMCTA,T1.SALINI ESTIMADO, "
+				+ "                           T1.AMPLI_REDU AMPLI_REDU, "
+				+ "                          (T1.SALINI + AMPLI_REDU) MODIFICADO, "
+				+ "                          T1.DEVENGADO DEVENGADO, "
+				+ "                          T1.RECAUDADO RECAUDADO "
+				+ "                       FROM ( "
+				+ "                             SELECT 35 TIPO, CU.NOMCTA,CU.SALINI, FN_GET_AMPRED_Aab_INGRESOS("+trimestre+",'8110','4223','5') AMPLI_REDU, "
+				+ "                                  0 MODIFICADO, "
+				+ "                                  FN_GET_DEVREC_NIVEL5("+trimestre+",'8140','4223','5') DEVENGADO, "
+				+ "                                  FN_GET_DEVREC_NIVEL5("+trimestre+",'8140','4223','5') RECAUDADO "
+				+ "                              FROM CUENTA CU "
+				+ "                              WHERE  CU.CUENTA = '8110' "
+				+ "                                     AND SUBSTR(CU.SCTA, 7,4) IN( '4223') "
+				+ "                                     AND SUBSTR(CU.SSCTA,15,1)='1'  "
+				+ "                                     AND SUBSTR(CU.SSSCTA,4,1)='1' "
+				+ "                                     AND SUBSTR(CU.SSSSCTA,4,1) IN('5')  "
+				+ "                             ) T1 "
+				+ "                     )T2 "
+				+ " "
+				+ "        UNION ALL "
+				+ "                SELECT 0 NIVEL,41 TIPO ,('    a6) Fondo de Aportaciones para la Educación Tecnológica y de Adultos')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "                SELECT 0 NIVEL,42 TIPO ,('    a7) Fondo de Aportaciones para la Seguridad Pública de los Estados y del Distrito Federal')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "                SELECT 0 NIVEL,43 TIPO ,('    a8) Fondo de Aportaciones para el Fortalecimiento de las Entidades Federativas')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "                SELECT 1 NIVEL, 44 TIPO ,('  B. Convenios (B=b1+b2+b3+b4)')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "                SELECT 0 NIVEL,45 TIPO ,('    b1) Convenios de Protección Social en Salud')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "                SELECT 0 NIVEL,46 TIPO ,('    b2) Convenios de Descentralización')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "                SELECT 0 NIVEL,47 TIPO ,('    b3) Convenios de Reasignación')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "        UNION ALL "
+				+ "                SELECT 0 NIVEL,48 TIPO ,(' b4) Otros Convenios y Subsidios') NOMCTA , "
+				+ "                       T2.ESTIMADO ESTIMADO, "
+				+ "                       T2.AMPLIACION_REDUCCION AMPLIACION_REDUCCION, "
+				+ "                       T2.ESTIMADO + T2.AMPLIACION_REDUCCION MODIFICADO, "
+				+ "                       0 DEVENGADO, "
+				+ "                       0 RECAUDADO, "
+				+ "                       0 DIFERENCIA "
+				+ "                    FROM ( "
+				+ "                       SELECT 7 TIPO,SUM(T1.SALINI) ESTIMADO, "
+				+ "                             FN_GET_AMPRED_B4_INGRESOS("+trimestre+",'8110','4223','3') AMPLIACION_REDUCCION "
+				+ "                           FROM  ( "
+				+ "                             SELECT 7 TIPO, CU.SALINI "
+				+ "                                  FROM CUENTA CU "
+				+ "                                    WHERE  CU.CUENTA = '8110' "
+				+ "                                          AND SUBSTR(CU.SCTA, 7,4) IN( '4223') "
+				+ "                                          AND SUBSTR(CU.SSCTA,15,1)='1'  "
+				+ "                                          AND SUBSTR(CU.SSSCTA,4,1)='1' "
+				+ "                                          AND SUBSTR(CU.SSSSCTA,4,1) IN('3')  "
+				+ "                                  ) T1 "
+				+ "                            )T2 "
+				+ " "
+				+ "            UNION ALL "
+				+ "                   SELECT 1 NIVEL,49 TIPO ,('  C. Fondos Distintos de Aportaciones (C=c1+c2)')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "            UNION ALL "
+				+ "                   SELECT 0 NIVEL,50 TIPO ,('    c1) Fondo para Entidades Federativas y Municipios Productores de Hidrocarburos')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "            UNION ALL "
+				+ "                   SELECT 0 NIVEL,51 TIPO ,('    c2) Fondo Minero')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "            UNION ALL "
+				+ "                   SELECT 1 NIVEL,52 TIPO ,('  D. Transferencias, Subsidios y Subvenciones, y Pensiones y Jubilaciones')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "            UNION ALL "
+				+ "                   SELECT 1 NIVEL, 53 TIPO ,('  E. Otras Transferencias Federales Etiquetadas')NOMCTA, 0 ESTIMADO,0 AMPLIACION_REDUCCION,0 MODIFICADO,0 DEVENGADO,0 RECAUDADO,0 DIFERENCIA FROM SYSIBM.SYSDUMMY1 "
+				+ "       ) "
+				
+				+ "   UNION ALL "
+				
+				+ "   SELECT 3 GRUP,NIVEL, TIPO,NOMCTA,ESTIMADO,AMPLIACION_REDUCCION,MODIFICADO,DEVENGADO,RECAUDADO,DIFERENCIA  "
+				+ "FROM ( "
+				+ "       SELECT 0 NIVEL, 54 TIPO ,('III. Ingresos Derivados de Financiamientos (III = A) ') NOMCTA , "
+				+ "                    T1.ESTIMADO ESTIMADO, "
+				+ "                   FN_GET_AMPRED_ING_DERIVADOS("+trimestre+",'8110','4399') AMPLIACION_REDUCCION, "
+				+ "                  T1.ESTIMADO +FN_GET_AMPRED_ING_DERIVADOS("+trimestre+",'8110','4399')MODIFICADO, "
+				+ "                  T1.DEVENGADO DEVENGADO, "
+				+ "                  T1.RECAUDADO RECAUDADO, "
+				+ "                 T1.ESTIMADO + DEVENGADO DIFERENCIA "
+				+ "               FROM  ( "
+				+ "            SELECT 7 TIPO,SUM(CU.SALINI)ESTIMADO,FN_GET_DEVREC_INGDERIVADOS("+trimestre+",'8140','4399')DEVENGADO, "
+				+ "                  FN_GET_DEVREC_INGDERIVADOS("+trimestre+",'8140','4399') RECAUDADO "
+				+ " "
+				+ "                      FROM CUENTA CU "
+				+ "                     WHERE  CU.CUENTA = '8110' "
+				+ "                       AND SUBSTR(CU.SCTA, 7,4) IN( '4399') "
+				+ "                        AND SUBSTR(CU.SSCTA,15,1)='1'  "
+				+ "                       AND SUBSTR(CU.SSSCTA,4,1)='1' "
+				+ "                       AND SUBSTR(CU.SSSSCTA,4,1) IN('8','9') "
+				+ "                       "
+				+ "               ) T1) "
+				+ "       )ORDER BY TIPO ASC ");
+		System.out.println(sSql1.toString());
+		
+		if (pesos != 1) {
+			sqlMiles.append(
+					"SELECT T2.GRUP,T2.CAMPO7 , T2.CAMPO6, 	(T2.APROBADO /1000) APROBADO,(T2.APMLIREDU /1000) APMLIREDU,				")
+					.append("	(T2.MODIFICADO /1000) MODIFICADO,(T2.DEVENGADO/1000) DEVENGADO,  ")
+					.append("	(T2.PAGADO/1000) PAGADO,(T2.SUBEJERCICIO /1000) SUBEJERCICIO               ")
+					.append("FROM(                                                                                                      ");
+			sSql1.insert(0, sqlMiles);
+			sSql1.append(")T2");
+		}
+		System.out.println(sSql1);
+		return sSql1.toString();
 
 	}
 
@@ -331,39 +665,7 @@ public class EaidMB extends BaseDirectReport {
 	 */
 	
 
-	@Override
-	public Map<String, Object> getParametersReports() throws ReportValidationException {
-		Map<String, Object> parameters = new HashMap<String, Object>();
-		Conctb conctb = conctbRepository.findByIdsector(this.getUserDetails().getIdSector());
-		Integer sector = this.getUserDetails().getIdSector();
-		TrPuestoFirma firma = null;
-		Object[] meses = this.getMonths(trimestre, conctb.getAnoemp());
-
-		parameters.put("pMesInicial", meses[0]);
-		parameters.put("pMesFinal", meses[1]);
-		parameters.put("pLastDay", meses[2]);
-		parameters.put("pYear", conctb.getAnoemp());
-		parameters.put("pNombreMunicipio", conctb.getNomDep());
-		parameters.put("pImagen1", conctb.getImagePathLeft());
-		parameters.put("pImagen2", conctb.getImagePathRigth());
-		parameters.put("trimestre", trimestre);
-		parameters.put("idSector", sector);
 	
-		
-		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F08.getValue());
-		parameters.put("pL2", firma.getPuesto().getPuesto());
-		parameters.put("pN2", firma.getNombre());
-		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F09.getValue());
-		parameters.put("pL3", firma.getPuesto().getPuesto());
-		parameters.put("pN3", firma.getNombre());
-		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F11.getValue());
-		parameters.put("pL4", firma.getPuesto().getPuesto());
-		parameters.put("pN4", firma.getNombre());
-
-		parameters.put("trimestre", trimestre);
-		return parameters;
-	}
-
 	@Override
 	public StreamedContent generaReporteSimple(int type) throws ReportValidationException {
 		// TODO Auto-generated method stub
