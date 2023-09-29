@@ -81,12 +81,12 @@ public class CNC_ClasificacionAdministrativaMB extends ReportePeriodos {
 		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F11.getValue());
 		parameters.put("pL4", firma.getPuesto().getPuesto());
 		parameters.put("firmaN4", firma.getNombre());
-		pSql="SELECT  SUM(APROBADO) APROBADO,\r\n"
-				+ " SUM(AMPLIACION_REDU) AMPL_REDU,\r\n"
-				+ " SUM(MODIFICADO)MODIFICADO,\r\n"
-				+ " SUM(DEVENGADO) DEVENGADO,\r\n"
-				+ " SUM(PAGADO) PAGADO,\r\n"
-				+ " SUM(SUBEJERCIDO) SUBEJERCICIO\r\n"
+		pSql="SELECT  SUM(APROBADO) APROBADO,"
+				+ " SUM(AMPLIACION_REDU) AMPL_REDU,"
+				+ " SUM(MODIFICADO)MODIFICADO,"
+				+ " SUM(DEVENGADO) DEVENGADO,"
+				+ " SUM(PAGADO) PAGADO,"
+				+ " SUM(SUBEJERCIDO) SUBEJERCICIO"
 				+ " FROM ";
 		switch (periodo.getPeriodo()) {
 		      case 1:

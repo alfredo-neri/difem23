@@ -347,7 +347,7 @@
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement verticalAlignment="Middle" markup="html">
-					<font fontName="Arial"/>
+					<font fontName="Arial" isBold="true"/>
 					<paragraph lineSpacingSize="0.0"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Sistema para el Desarrollo Integral de la Familia (201B000000)"]]></textFieldExpression>

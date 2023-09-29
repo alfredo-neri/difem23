@@ -1,6 +1,4 @@
 
-
-
 package com.gem.sistema.web.bean;
 
 import static com.gem.sistema.util.UtilFront.generateNotificationFront;
@@ -114,49 +112,65 @@ public class CNCclasificacionObjGastoMB extends ReportePeriodos {
 	private String generateSQL(Integer sector) {
 		StringBuilder sql = new StringBuilder();
 		StringBuilder sqlMiles = new StringBuilder();
-        Integer trimestre=this.periodo.getPeriodo();
+		Integer trimestre = this.periodo.getPeriodo();
+		Integer meses = 0;
 		String auto = "SUM(";
 		String ejpa = "SUM(";
 		String redu = "SUM(";
 		String ejxpa = "SUM(";
 		String ampli = "SUM(";
+		switch (trimestre) {
+		case 1:
+			meses = 3;
+			break;
+		case 2:
+			meses = 6;
+			break;
+		case 3:
+			meses = 9;
+			break;
+		case 4:
+			meses = 12;
+			break;
+		}
 
-		for (int y = getMesInicial(); y <= getMesSelected(); y++) {
+		for (int y = 1; y <= meses; y++) {
+			
 			ejpa = ejpa + " PA.EJPA1_" + y + " +";
 			redu = redu + " PA.REDU1_" + y + " +";
 			ejxpa = ejxpa + " PA.TOEJE1_" + y + " +";
 			ampli = ampli + " PA.AMPLI1_" + y + " +";
 		}
-
 		for (int y = 1; y <= 12; y++) {
 			auto = auto + " PA.AUTO1_" + y + " +";
 		}
-
 		auto = auto.substring(0, auto.length() - 2) + " ) APROBADO, ";
 		ejpa = ejpa.substring(0, ejpa.length() - 2) + " ) PAGADO, ";
 		redu = redu.substring(0, redu.length() - 2) + " ) REDUCCIONES, ";
 		ejxpa = ejxpa.substring(0, ejxpa.length() - 2) + " ) DEVENGADO, ";
 		ampli = ampli.substring(0, ampli.length() - 2) + " ) AMPLIACION ";
 
-		sql.append(" SELECT CLVGAS,	NOMGAS, ")
-		.append(" 	DECODE(APROBADO,NULL,0,APROBADO)APROBADO, ")
-		.append(" 	DECODE(AMPL_REDU,NULL,0,AMPL_REDU)AMPL_REDU, ")
-		.append(" 	DECODE(MODIFICADO,NULL,0,MODIFICADO)MODIFICADO, ")
-		.append(" 	DECODE(DEVENGADO,NULL,0,DEVENGADO)DEVENGADO, ")
-		.append(" 	DECODE(PAGADO,NULL,0,PAGADO)PAGADO, ")
-		.append(" 	DECODE(SUBEJERCICIO,NULL,0,SUBEJERCICIO)SUBEJERCICIO ").append(" FROM( ")
-		.append(" SELECT CLVGAS,NOMGAS, ").append(" DECODE(SUBSTR (CLVGAS,1,1),'6',(AMPLIACION -REDUCCIONES),DECODE (CLVGAS,'4000',(FN_GET_AMP( "+ trimestre +" )+APROBADO),DECODE (CLVGAS,'4400',(FN_GET_AMP( "+trimestre+")+APROBADO),APROBADO)))APROBADO,\r\n"
-				+ "	DECODE(SUBSTR (CLVGAS,1,1),'6',APROBADO,DECODE (CLVGAS,'4000',((AMPLIACION -REDUCCIONES)-FN_GET_AMP( "+ trimestre +")),DECODE (CLVGAS,'4400',((AMPLIACION -REDUCCIONES)-FN_GET_AMP( "+trimestre+")),(AMPLIACION -REDUCCIONES)))) AMPL_REDU,   ")
-		.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) MODIFICADO,	DEVENGADO,	PAGADO,  ")
-		.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) - DEVENGADO SUBEJERCICIO  ")
-		.append(" FROM ((SELECT NAT.CLVGAS,	NAT.NOMGAS,                                       ")
-		.append(auto).append(ejpa).append(redu).append(ejxpa).append(ampli)
-		.append(" 	FROM NATGAS NAT LEFT JOIN PASO PA  ON   ")
-		.append(" 		NAT.CLVGAS = PA.PARTIDA AND NAT.IDSECTOR = PA.IDSECTOR   ")
-		.append(" 		AND	PA.IDSECTOR = 2  ")
-		.append(" 	WHERE	SUBSTR(NAT.CLVGAS, 3, 2) = '00'   ")
-		.append(" 	GROUP BY NAT.CLVGAS,NAT.NOMGAS  ")
-		.append(" 	ORDER BY NAT.CLVGAS ASC) )) ");
+		sql.append(" SELECT CLVGAS,	NOMGAS, ").append(" 	DECODE(APROBADO,NULL,0,APROBADO)APROBADO, ")
+				.append(" 	DECODE(AMPL_REDU,NULL,0,AMPL_REDU)AMPL_REDU, ")
+				.append(" 	DECODE(MODIFICADO,NULL,0,MODIFICADO)MODIFICADO, ")
+				.append(" 	DECODE(DEVENGADO,NULL,0,DEVENGADO)DEVENGADO, ")
+				.append(" 	DECODE(PAGADO,NULL,0,PAGADO)PAGADO, ")
+				.append(" 	DECODE(SUBEJERCICIO,NULL,0,SUBEJERCICIO)SUBEJERCICIO ").append(" FROM( ")
+				.append(" SELECT CLVGAS,NOMGAS, ")
+				.append(" DECODE(SUBSTR (CLVGAS,1,1),'6',(AMPLIACION -REDUCCIONES),DECODE (CLVGAS,'4000',(FN_GET_AMP( "
+						+ trimestre + " )+APROBADO),DECODE (CLVGAS,'4400',(FN_GET_AMP( " + trimestre
+						+ ")+APROBADO),APROBADO)))APROBADO,\r\n"
+						+ "	DECODE(SUBSTR (CLVGAS,1,1),'6',APROBADO,DECODE (CLVGAS,'4000',((AMPLIACION -REDUCCIONES)-FN_GET_AMP( "
+						+ trimestre + ")),DECODE (CLVGAS,'4400',((AMPLIACION -REDUCCIONES)-FN_GET_AMP( " + trimestre
+						+ ")),(AMPLIACION -REDUCCIONES)))) AMPL_REDU,   ")
+				.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) MODIFICADO,	DEVENGADO,	PAGADO,  ")
+				.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) - DEVENGADO SUBEJERCICIO  ")
+				.append(" FROM ((SELECT NAT.CLVGAS,	NAT.NOMGAS,                                       ").append(auto)
+				.append(ejpa).append(redu).append(ejxpa).append(ampli)
+				.append(" 	FROM NATGAS NAT LEFT JOIN PASO PA  ON   ")
+				.append(" 		NAT.CLVGAS = PA.PARTIDA AND NAT.IDSECTOR = PA.IDSECTOR   ")
+				.append(" 		AND	PA.IDSECTOR = 2  ").append(" 	WHERE	SUBSTR(NAT.CLVGAS, 3, 2) = '00'   ")
+				.append(" 	GROUP BY NAT.CLVGAS,NAT.NOMGAS  ").append(" 	ORDER BY NAT.CLVGAS ASC) )) ");
 		if (pesos != 1) {
 			sqlMiles.append(
 					"SELECT T2.CLVGAS , T2.NOMGAS, 	(T2.APROBADO /1000) APROBADO,(T2.AMPL_REDU /1000) AMPL_REDU,				")
@@ -238,4 +252,3 @@ public class CNCclasificacionObjGastoMB extends ReportePeriodos {
 		this.pesos = pesos;
 	}
 }
-

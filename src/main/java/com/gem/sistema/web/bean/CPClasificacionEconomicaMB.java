@@ -86,7 +86,7 @@ public class CPClasificacionEconomicaMB extends ReportePeriodos {
 		pSql=pSql+" ORDER BY TIPO ASC";
 		parameters.put("query", pSql);
 		parameters.put("tipoReporte", reporte);
-		parameters.put("pesos", pesos);
+		parameters.put("pPesos", pesos);
 		parameters.put("year", conctb.getAnoemp());
 		parameters.put("pDia", getLastDayByAnoEmp(getMesSelected(), conctb.getAnoemp()));
 		parameters.put("mesFinal", getNombreMesSelected().toUpperCase());

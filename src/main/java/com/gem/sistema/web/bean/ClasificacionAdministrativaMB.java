@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -29,7 +30,10 @@ import com.gem.sistema.util.ConstantsClaveEnnum;
 @ManagedBean(name = "clasificacionAdministrativaMB")
 @ViewScoped
 public class ClasificacionAdministrativaMB extends ReportePeriodos {
-
+	final static private String VW1="VI_CLASIFICACION_ADMINISTRATIVA_LDF_T1";
+	final static private String VW2="VI_CLASIFICACION_ADMINISTRATIVA_LDF_T2";
+	final static private String VW3="VI_CLASIFICACION_ADMINISTRATIVA_LDF_T3";
+	final static private String VW4="VI_CLASIFICACION_ADMINISTRATIVA_LDF_T4";
 	private String fileName;
 	private StreamedContent file;
 	private Integer noDecimales = 2;
@@ -73,8 +77,25 @@ public class ClasificacionAdministrativaMB extends ReportePeriodos {
 		parameters.put("firmaN3", firma.getNombre());
 		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F11.getValue());
 		parameters.put("firmaN4", firma.getNombre());
-
-		parameters.put("sql", this.generateSql(this.getUserDetails().getIdSector()));
+		String sql=StringUtils.EMPTY;
+		sql="SELECT GRUP,APROBADO,AMPL_REDU,MODIFICADO,DEVENGADO,PAGADO,SUBEJERCICIO FROM ";
+		switch (periodo.getPeriodo()) {
+		      case 1:
+		    	  sql=sql+VW1;
+		          break;
+		      case 2:
+		    	  sql=sql+ VW2;
+		          break;
+		      case  3:
+		    	  sql=sql+ VW3;
+		           break;
+		      case 4:
+		    	  sql=sql+VW4;
+		            break;   
+		      }
+		 sql=sql+" ORDER BY GRUP ASC";
+		parameters.put("sql", sql);
+		
 
 		return parameters;
 	}
@@ -83,6 +104,8 @@ public class ClasificacionAdministrativaMB extends ReportePeriodos {
 		StringBuilder sql = new StringBuilder();
 		StringBuilder sqlMiles = new StringBuilder();
 		Integer trimestre=this.periodo.getPeriodo();
+		Integer meses = 0;
+		String fuente;
 		String auto = "SUM(";
 		String ejpa = "SUM(";
 		String redu = "SUM(";
@@ -91,8 +114,25 @@ public class ClasificacionAdministrativaMB extends ReportePeriodos {
 		String ampliGrup = "";
 		String reduGrup = "";
 		String autoGrup="SUM(%s";
-
-		for (int y = getMesInicial(); y <= getMesSelected(); y++) {
+		switch (trimestre) {
+		case 1:
+			meses = 3;
+			fuente="5";
+			break;
+		case 2:
+			meses = 6;
+			fuente="3";
+			break;
+		case 3:
+			meses = 9;
+			fuente="3";
+			break;
+		case 4:
+			meses = 12;
+			fuente="3";
+			break;
+		}
+		for (int y = 1; y <= meses; y++) {
 			ejpa = ejpa + " PA.EJPA1_" + y + " +";
 			redu = redu + " PA.REDU1_" + y + " +";
 			ejxpa = ejxpa + " PA.TOEJE1_" + y + " +";
