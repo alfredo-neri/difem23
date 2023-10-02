@@ -66,7 +66,8 @@ public class CPClasificacionEconomicaMB extends ReportePeriodos {
 		Conctb conctb = conctbRepository.findByIdsector(sector);
 		String pSql=StringUtils.EMPTY;
 		parameters.put("decimalFormat", "%,." + noDecimales + "f");
-		parameters.put("imagePath", conctb.getImagePathRigth());
+		parameters.put("imagen", conctb.getImagePathRigth());
+		parameters.put("imagen2", conctb.getImagePathRigth());
 		parameters.put("entidadName", conctb.getNomDep());
 		pSql="SELECT TIPO,NOMGAS,APROBADO,AMPLIACION_REDU AMPLI_REDU,MODIFICADO,DEVENGADO,PAGADO,SUBEJERCIDO SUBEJERCICIO FROM ";
 		switch (periodo.getPeriodo()) {

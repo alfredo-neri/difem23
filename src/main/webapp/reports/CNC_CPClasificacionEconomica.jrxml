@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DIF23.jrdax"/>
 	<parameter name="year" class="java.lang.Integer"/>
-	<parameter name="imagePath" class="java.lang.String">
+	<parameter name="imagen" class="java.lang.String">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
 	<parameter name="entidadName" class="java.lang.String">
@@ -28,6 +28,7 @@
 	<parameter name="pAnio" class="java.lang.Integer"/>
 	<parameter name="mesInicial" class="java.lang.String"/>
 	<parameter name="pPesos" class="java.lang.Integer"/>
+	<parameter name="imagen2" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[$P!{query}]]>
 	</queryString>
@@ -208,7 +209,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[ $P{entidadName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{entidadName}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="60" y="15" width="692" height="15" uuid="1d2e8c23-c72b-4192-9537-9dea5160dab9">
@@ -219,9 +220,9 @@
 				</textElement>
 				<textFieldExpression><![CDATA["Estado Análitico Del Ejercicio del Presupuesto de Egresos"]]></textFieldExpression>
 			</textField>
-			<image hAlign="Center" vAlign="Middle">
+			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
 				<reportElement x="0" y="0" width="60" height="60" uuid="654511b1-5f77-41c7-b249-a71c615d3757"/>
-				<imageExpression><![CDATA[$P{imagePath}]]></imageExpression>
+				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="121" y="41" width="520" height="15" uuid="dd604565-e973-448e-a1b1-e5cf23026fae">
@@ -244,6 +245,10 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{pPesos}  != 1?"(Miles)":"(Pesos)"]]></textFieldExpression>
 			</textField>
+			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="670" y="7" width="60" height="60" uuid="7fe97f0c-c850-4016-95c9-c1e358da9259"/>
+				<imageExpression><![CDATA[$P{imagen2}]]></imageExpression>
+			</image>
 		</band>
 	</pageHeader>
 	<columnHeader>
