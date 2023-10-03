@@ -220,13 +220,6 @@
 				</reportElement>
 				<imageExpression><![CDATA[$P{pImagen2}]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement x="190" y="80" width="385" height="15" uuid="2ffcaa70-fed0-415a-954d-28a5d6c703d9"/>
-				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Arial" size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{pPesos}  != 1?"(Miles)":"(Pesos)"]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
