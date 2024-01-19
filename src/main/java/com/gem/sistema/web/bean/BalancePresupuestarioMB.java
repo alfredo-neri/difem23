@@ -3,6 +3,7 @@ package com.gem.sistema.web.bean;
 import static com.roonin.utils.UtilDate.getDateSystem;
 import static com.roonin.utils.UtilDate.getLastDayByAnoEmp;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.StreamedContent;
@@ -33,6 +35,10 @@ import com.gem.sistema.web.datamodel.DataModelGeneric;
 @ManagedBean(name = "balancePresupuestarioMB")
 @ViewScoped
 public class BalancePresupuestarioMB extends BaseDirectReport {
+	final static private String VW1="VI_BALANCE_PRESUPUESTARIO_T1";
+	final static private String VW2="VI_BALANCE_PRESUPUESTARIO_T2";
+	final static private String VW3="VI_BALANCE_PRESUPUESTARIO_T3";
+	final static private String VW4="VI_BALANCE_PRESUPUESTARIO_T4";
 
 	private static final Integer TIPO_PERIODO = 3;
 
@@ -85,7 +91,8 @@ public class BalancePresupuestarioMB extends BaseDirectReport {
 
 	@PostConstruct
 	public void init() {
-		jasperReporteName = "BP";
+		
+		jasperReporteName = "balance_presupuestario";
 		endFilename = jasperReporteName + ".pdf";
 		conctb = conctbRepository.findByIdsectorAndIdRef(this.getUserDetails().getIdSector(), 0);
 		listTrimestres = periodoRepository.findByTipoPeriodo(TIPO_PERIODO);
@@ -287,7 +294,27 @@ public class BalancePresupuestarioMB extends BaseDirectReport {
 		firma = puestosFirmasService.getFirmaBySectorAnioClave(sector, 0L, ConstantsClaveEnnum.CLAVE_F11.getValue());
 		parameters.put("pL4", firma.getPuesto().getPuesto());
 		parameters.put("pN4", firma.getNombre());
-
+		String sql=StringUtils.EMPTY;
+		
+		sql="SELECT * FROM ";
+		switch (trimestre) {
+		      case 1:
+		    	  sql=sql+VW1;
+		          break;
+		      case 2:
+		    	  sql=sql+ VW2;
+		          break;
+		      case  3:
+		    	  sql=sql+ VW3;
+		           break;
+		      case 4:
+		    	  sql=sql+VW4;
+		            break;   
+		      }
+		 
+		parameters.put("sql", sql);
+		System.out.println(sql.toString());
+		
 		return parameters;
 	}
 
@@ -308,10 +335,10 @@ public class BalancePresupuestarioMB extends BaseDirectReport {
 //			}
 //		}
 //	}
-
+	
 	public Object[] getMonths(Integer trimestre, Integer anio) {
 		Integer mesFinal = trimestre * 3;
-		Integer mesInicial = mesFinal - 2;
+		Integer mesInicial = 1;
 		Object[] meses = {
 				tcMesRepository.findByMes(org.apache.commons.lang3.StringUtils.leftPad(mesInicial.toString(), 2, "0"))
 						.getDescripcion(),
