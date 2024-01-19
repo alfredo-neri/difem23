@@ -116,8 +116,7 @@ public class EaidMB extends ReportePeriodos{
 		eaid = new Eaid();
 
 		this.listPeriodo = this.tcPeriodoService.findByPeriodo(TRIMESTRE);
-		trimestre = listPeriodo.get(0).getPeriodo();
-
+		
 		this.iniciarlizarbandera();
 		this.loadData();
 
@@ -156,9 +155,10 @@ public class EaidMB extends ReportePeriodos{
 	}
 
 	public String generaQuery(Integer idsector) {
-
+		
 		StringBuilder sSql1 = new StringBuilder();
 		StringBuilder sqlMiles = new StringBuilder();
+		
 		
 		sSql1.append("SELECT GRUP, NIVEL,TIPO,NOMCTA,ESTIMADO,AMPLIACION_REDUCCION,MODIFICADO,DEVENGADO,RECAUDADO,DIFERENCIA  "
 				+ "    FROM ( "
@@ -201,8 +201,8 @@ public class EaidMB extends ReportePeriodos{
 				+ "                          SELECT 5 TIPO,NOMCTA,SALINI,  "
 				+ "                                 FN_GET_AMPL_REDU_APROVE("+trimestre+",'8110', '4399')  AMPLIACION_REDUCCION, "
 				+ "                                 0 MODIFICADO, "
-				+ "                                 FN_GET_DEVREC_ING("+trimestre+",'8150', '4399')DEVENGADO, "
-				+ "                                 FN_GET_DEVREC_ING("+trimestre+",'8150', '4399') RECAUDADO        "
+				+ "                                 FN_GET_DEVREC_ING("+ trimestre +",'8150', '4399') - FN_GET_DISPONIBILIDAD_PRESUPUESTARIA("+trimestre+")DEVENGADO, "
+				+ "                                 FN_GET_DEVREC_ING("+ trimestre+",'8150', '4399') - FN_GET_DISPONIBILIDAD_PRESUPUESTARIA("+trimestre+")RECAUDADO        "
 				+ "                           FROM CUENTA CU "
 				+ "                              WHERE  CU.CUENTA IN ('8110') "
 				+ "                                     AND SUBSTR(SCTA, 7,4) IN( '4399') "
@@ -266,8 +266,8 @@ public class EaidMB extends ReportePeriodos{
 				+ "                       SUM(T2.ESTIMADO)+FN_GET_PAD_FTE3("+trimestre+") ESTIMADO, "
 				+ "                       (-1*FN_GET_AMPREDU_EFG("+trimestre+",'8110', '4173'))AMPLIACION_REDUCCION, "
 				+ "                       SUM(T2.ESTIMADO)+FN_GET_PAD_FTE3("+trimestre+")+(-1*FN_GET_AMPREDU_EFG("+trimestre+",'8110', '4173')) MODIFICADO, "
-				+ "                       FN_GET_DEVREC_TRANSFERENCIAS(1,'8150','4223') DEVENGADO, "
-				+ "                       FN_GET_DEVREC_TRANSFERENCIAS(1,'8150','4223') RECAUDADO, "
+				+ "                       FN_GET_DEVREC_TRANSFERENCIAS("+trimestre+",'8150','4223') DEVENGADO, "
+				+ "                       FN_GET_DEVREC_TRANSFERENCIAS("+trimestre+",'8150','4223') RECAUDADO, "
 				+ "                       SUM(T2.ESTIMADO)+FN_GET_PAD_FTE3("+trimestre+")- FN_GET_DEVREC_TRANSFERENCIAS("+trimestre+",'8150','4223')  DIFERENCIA "
 				+ "                 FROM ( "
 				+ "                       SELECT 27 TIPO,T1.NOMCTA,T1.SALINI ESTIMADO, "
@@ -448,6 +448,7 @@ public class EaidMB extends ReportePeriodos{
 					.append("FROM(                                                                                                      ");
 			sSql1.insert(0, sqlMiles);
 			sSql1.append(")T2");
+			System.out.println(sSql1);
 		}
 		System.out.println(sSql1);
 		return sSql1.toString();

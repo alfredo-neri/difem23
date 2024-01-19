@@ -90,13 +90,28 @@ public class CNCfinalidadFuncionMB extends ReportePeriodos {
 		StringBuilder sSql1 = new StringBuilder();
 		StringBuilder sqlMiles = new StringBuilder();
 		 Integer trimestre=this.periodo.getPeriodo();
+		 Integer meses = 0;
 		String aprobado = "SUM(";
 		String ampliacion = "SUM(";
 		String reduccion = "SUM(";
 		String devengado = "SUM(";
 		String pagado = "SUM(";
-		
-		for (int y = getMesInicial(); y <= getMesSelected(); y++) {
+		switch (trimestre) {
+		case 1:
+			meses = 3;
+			break;
+		case 2:
+			meses = 6;
+			break;
+		case 3:
+			meses = 9;
+			break;
+		case 4:
+			meses = 12;
+			break;
+		}
+
+		for (int y = 1; y <= meses; y++) {
 			ampliacion = ampliacion + " PA.AMPLI1_" + y + " +";
 			reduccion = reduccion + " PA.REDU1_" + y + " +";
 			devengado = devengado + " PA.TOEJE1_" + y + " +";

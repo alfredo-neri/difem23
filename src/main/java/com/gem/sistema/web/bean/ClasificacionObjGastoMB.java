@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -29,7 +30,10 @@ import com.gem.sistema.util.ConstantsClaveEnnum;
 @ManagedBean(name = "clasificacionObjGastoMB")
 @ViewScoped
 public class ClasificacionObjGastoMB extends ReportePeriodos {
-
+	final static private String VW1="VI_OBJETO_GASTO_LDF_T1";
+	final static private String VW2="VI_OBJETO_GASTO_LDF_T2";
+	final static private String VW3="VI_OBJETO_GASTO_LDF_T3";
+	final static private String VW4="VI_OBJETO_GASTO_LDF_T4";
 	private String pathName;
 	InputStream stream = null;
 	private Integer noDecimales = 2;
@@ -79,9 +83,26 @@ public class ClasificacionObjGastoMB extends ReportePeriodos {
 		parameters.put("firmaN3", firma.getNombre());
 		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F11.getValue());
 		parameters.put("firmaN4", firma.getNombre());
-
+		String sql=StringUtils.EMPTY;
 		parameters.put("sql", this.generateSQL(this.getUserDetails().getIdSector()));
-
+		sql="SELECT GRUP,CLVGAS,NOMGAS,APROBADO,AMPL_REDU,MODIFICADO,DEVENGADO,PAGADO,SUBEJERCICIO FROM ";
+		switch (periodo.getPeriodo()) {
+		      case 1:
+		    	  sql=sql+VW1;
+		          break;
+		      case 2:
+		    	  sql=sql+ VW2;
+		          break;
+		      case  3:
+		    	  sql=sql+ VW3;
+		           break;
+		      case 4:
+		    	  sql=sql+VW4;
+		            break;   
+		      }
+		 sql=sql+" ORDER BY GRUP ASC";
+		parameters.put("sql", sql);
+		System.out.println(sql.toString());
 		return parameters;
 	}
 
@@ -110,15 +131,40 @@ public class ClasificacionObjGastoMB extends ReportePeriodos {
 
 	private String generateSQL(Integer sector) {
 		StringBuilder sql = new StringBuilder();
+		StringBuilder sql1 = new StringBuilder();
 		StringBuilder sqlMiles = new StringBuilder();
-
+		Integer trimestre = this.periodo.getPeriodo();
+		Integer meses = 0;
+		String fuente="";
+		String fuente5="";
 		String auto = "SUM(";
 		String ejpa = "SUM(";
 		String redu = "SUM(";
 		String ejxpa = "SUM(";
 		String ampli = "SUM(";
-
-		for (int y = getMesInicial(); y <= getMesSelected(); y++) {
+		switch (trimestre) {
+		case 1:
+			meses = 3;
+			fuente="5";
+			fuente5="5";
+			break;
+		case 2:
+			meses = 6;
+			fuente="3";
+			fuente5="5";
+			break;
+		case 3:
+			meses = 9;
+			fuente="3";
+			fuente5="5";
+			break;
+		case 4:
+			meses = 12;
+			fuente="3";
+			fuente5="5";
+			break;
+		}
+		for (int y = 1; y <= meses; y++) {
 			ejpa = ejpa + " PA.EJPA1_" + y + " +";
 			redu = redu + " PA.REDU1_" + y + " +";
 			ejxpa = ejxpa + " PA.TOEJE1_" + y + " +";
@@ -134,35 +180,47 @@ public class ClasificacionObjGastoMB extends ReportePeriodos {
 		redu = redu.substring(0, redu.length() - 2) + " ) REDUCCIONES, ";
 		ejxpa = ejxpa.substring(0, ejxpa.length() - 2) + " ) DEVENGADO, ";
 		ampli = ampli.substring(0, ampli.length() - 2) + " ) AMPLIACION ";
+     
+		sql1.append(" SELECT * FROM (SELECT GRUP,	CLVGAS,	NOMGAS, ")
+        .append(" 	DECODE(APROBADO,NULL,0,DECODE(GRUP,2,DECODE(SUBSTR(CLVGAS,1,1),'4',AMPL_REDU,APROBADO),APROBADO))APROBADO, ")
+		.append(" 	DECODE(AMPL_REDU,NULL,0,DECODE(GRUP,2,DECODE(SUBSTR(CLVGAS,1,1),'4',APROBADO,AMPL_REDU),AMPL_REDU))AMPL_REDU, ")
+		.append(" 	DECODE(MODIFICADO,NULL,0,MODIFICADO)MODIFICADO, ")
+		.append(" 	DECODE(DEVENGADO,NULL,0,DEVENGADO)DEVENGADO, ")
+		.append(" 	DECODE(PAGADO,NULL,0,PAGADO)PAGADO, ")
+		.append(" 	DECODE(SUBEJERCICIO,NULL,0,SUBEJERCICIO)SUBEJERCICIO,ROW_NUMBER() OVER(PARTITION BY SUBSTR(CLVGAS,1,1),GRUP) ROW_OF_TOTAL ")
+		.append(" FROM( ")
+		.append(" SELECT GRUP,	CLVGAS,	NOMGAS,	DECODE(SUBSTR (CLVGAS,1,1),'6',(AMPLIACION -REDUCCIONES),APROBADO) APROBADO,\r\n"
+				+ "	                DECODE(SUBSTR (CLVGAS,1,1),'6',APROBADO,(AMPLIACION -REDUCCIONES)) AMPL_REDU,  ")
+		.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) MODIFICADO,DEVENGADO,	PAGADO,  ")
+		.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) - DEVENGADO SUBEJERCICIO  ")
+		.append(" FROM ((SELECT 2 GRUP,NAT.CLVGAS,	NAT.NOMGAS,                                       ")
+		.append(auto).append(ejpa).append(redu).append(ejxpa).append(ampli)
+		.append(" 	FROM NATGAS NAT LEFT JOIN PASO PA  ON   ")
+		.append(" 		NAT.CLVGAS = PA.PARTIDA AND NAT.IDSECTOR = PA.IDSECTOR   ")
+		.append(" 		AND	PA.IDSECTOR = 2 	AND (SUBSTR(PA.PROGRAMA, 15, 1)>='3'   ")
+		.append(" 		AND	SUBSTR(PA.PROGRAMA, 15, 1)<='5')     AND PA.PROGRAMA<>'040401010101265' ")
+		.append(" 	WHERE	SUBSTR(NAT.CLVGAS, 3, 2) = '00'   ").append(" 	GROUP BY NAT.CLVGAS,NAT.NOMGAS  ")
+		.append(" 	ORDER BY NAT.CLVGAS ASC)  ").append(" UNION ALL  ")
+		.append(" (SELECT 1 GRUP, NAT.CLVGAS,	NAT.NOMGAS,  											")
+		.append(auto).append(ejpa).append(redu).append(ejxpa).append(ampli)
+		.append(" 	FROM NATGAS NAT 	LEFT JOIN PASO PA  ON 	  ")
+		.append(" 		NAT.CLVGAS = PA.PARTIDA AND NAT.IDSECTOR = PA.IDSECTOR   ")
+		.append(" 		AND	PA.IDSECTOR = ").append(sector).append(" AND SUBSTR(PA.PROGRAMA, 15, 1) IN ('1','2',"+ fuente+")  ")
+		.append(" 	WHERE	SUBSTR(NAT.CLVGAS, 3, 2) = '00'   AND SUBSTR(NAT.CLVGAS, 1, 1)<>'9'	  ")
+		.append(" 	GROUP BY NAT.CLVGAS,NAT.NOMGAS  ")
+		.append(" 	ORDER BY NAT.CLVGAS ASC)  ")
+		.append(" UNION ALL  ")
+		.append(" (SELECT 1 GRUP, NAT.CLVGAS,	NAT.NOMGAS,  											")
+		.append(auto).append(ejpa).append(redu).append(ejxpa).append(ampli)
+		.append(" 	FROM NATGAS NAT 	LEFT JOIN PASO PA  ON 	  ")
+		.append(" 		NAT.CLVGAS = PA.PARTIDA AND NAT.IDSECTOR = PA.IDSECTOR   ")
+		.append(" 		AND	PA.IDSECTOR = ").append(sector).append(" AND SUBSTR(PA.PROGRAMA, 15, 1) IN ('1','2',"+ fuente5+")  ")
+		.append(" 	WHERE	SUBSTR(NAT.CLVGAS, 3, 2) = '00'   AND SUBSTR(NAT.CLVGAS, 1, 1)>='9'	  ")
+		.append(" 	GROUP BY NAT.CLVGAS,NAT.NOMGAS  ")
+		.append(" 	ORDER BY NAT.CLVGAS ASC)  ")
+		.append(" )  )ORDER BY GRUP ASC)");
+		System.out.println(sql1.toString());
 
-		sql.append(" SELECT * FROM (SELECT GRUP,	CLVGAS,	NOMGAS, ")
-		        .append(" 	DECODE(APROBADO,NULL,0,DECODE(GRUP,2,DECODE(SUBSTR(CLVGAS,1,1),'4',AMPL_REDU,APROBADO),APROBADO))APROBADO, ")
-				.append(" 	DECODE(AMPL_REDU,NULL,0,DECODE(GRUP,2,DECODE(SUBSTR(CLVGAS,1,1),'4',APROBADO,AMPL_REDU),AMPL_REDU))AMPL_REDU, ")
-				.append(" 	DECODE(MODIFICADO,NULL,0,MODIFICADO)MODIFICADO, ")
-				.append(" 	DECODE(DEVENGADO,NULL,0,DEVENGADO)DEVENGADO, ")
-				.append(" 	DECODE(PAGADO,NULL,0,PAGADO)PAGADO, ")
-				.append(" 	DECODE(SUBEJERCICIO,NULL,0,SUBEJERCICIO)SUBEJERCICIO,ROW_NUMBER() OVER(PARTITION BY SUBSTR(CLVGAS,1,1),GRUP) ROW_OF_TOTAL ")
-				.append(" FROM( ")
-				.append(" SELECT GRUP,	CLVGAS,	NOMGAS,	DECODE(SUBSTR (CLVGAS,1,1),'6',(AMPLIACION -REDUCCIONES),APROBADO) APROBADO,\r\n"
-						+ "	                DECODE(SUBSTR (CLVGAS,1,1),'6',APROBADO,(AMPLIACION -REDUCCIONES)) AMPL_REDU,  ")
-				.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) MODIFICADO,DEVENGADO,	PAGADO,  ")
-				.append(" 	(APROBADO + AMPLIACION -REDUCCIONES) - DEVENGADO SUBEJERCICIO  ")
-				.append(" FROM ((SELECT 2 GRUP,NAT.CLVGAS,	NAT.NOMGAS,                                       ")
-				.append(auto).append(ejpa).append(redu).append(ejxpa).append(ampli)
-				.append(" 	FROM NATGAS NAT LEFT JOIN PASO PA  ON   ")
-				.append(" 		NAT.CLVGAS = PA.PARTIDA AND NAT.IDSECTOR = PA.IDSECTOR   ")
-				.append(" 		AND	PA.IDSECTOR = 2 	AND (SUBSTR(PA.PROGRAMA, 15, 1)>='3'   ")
-				.append(" 		AND	SUBSTR(PA.PROGRAMA, 15, 1)<='5')     AND PA.PROGRAMA<>'040401010101265' ")
-				.append(" 	WHERE	SUBSTR(NAT.CLVGAS, 3, 2) = '00'   ").append(" 	GROUP BY NAT.CLVGAS,NAT.NOMGAS  ")
-				.append(" 	ORDER BY NAT.CLVGAS ASC)  ").append(" UNION ALL  ")
-				.append(" (SELECT 1 GRUP, NAT.CLVGAS,	NAT.NOMGAS,  											")
-				.append(auto).append(ejpa).append(redu).append(ejxpa).append(ampli)
-				.append(" 	FROM NATGAS NAT 	LEFT JOIN PASO PA  ON 	  ")
-				.append(" 		NAT.CLVGAS = PA.PARTIDA AND NAT.IDSECTOR = PA.IDSECTOR   ")
-				.append(" 		AND	PA.IDSECTOR = ").append(sector).append(" AND SUBSTR(PA.PROGRAMA, 15, 1) IN ('1','2','5')  ")
-				.append(" 	WHERE	SUBSTR(NAT.CLVGAS, 3, 2) = '00'   ").append(" 	GROUP BY NAT.CLVGAS,NAT.NOMGAS  ")
-				.append(" 	ORDER BY NAT.CLVGAS ASC)  ").append(" )  )ORDER BY GRUP ASC)");
-		System.out.println(sql.toString());
 		if (pesos != 1) {
 			sqlMiles.append(
 					"SELECT T2.GRUP,T2.CLVGAS , T2.NOMGAS, 	(T2.APROBADO /1000) APROBADO,(T2.AMPL_REDU /1000) AMPL_REDU,				")

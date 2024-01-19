@@ -1,0 +1,916 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="balance_presupuestario" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="625427c6-dacf-4013-9872-023be6b67e08">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DIF23.jrdax"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="pMesInicial" class="java.lang.String"/>
+	<parameter name="pMesFinal" class="java.lang.String"/>
+	<parameter name="pLastDay" class="java.lang.Integer"/>
+	<parameter name="pYear" class="java.lang.Integer"/>
+	<parameter name="pNombreMunicipio" class="java.lang.String"/>
+	<parameter name="pImagen2" class="java.lang.String"/>
+	<parameter name="pImagen" class="java.lang.String"/>
+	<parameter name="pTrimestre" class="java.lang.Integer"/>
+	<parameter name="pIdSector" class="java.lang.Integer"/>
+	<parameter name="pL1" class="java.lang.String"/>
+	<parameter name="pN1" class="java.lang.String"/>
+	<parameter name="pL3" class="java.lang.String"/>
+	<parameter name="pN3" class="java.lang.String"/>
+	<parameter name="pL2" class="java.lang.String"/>
+	<parameter name="pN2" class="java.lang.String"/>
+	<parameter name="pL4" class="java.lang.String"/>
+	<parameter name="pN4" class="java.lang.String"/>
+	<parameter name="sql" class="java.lang.String"/>
+	<parameter name="firmaN2" class="java.lang.String"/>
+	<parameter name="firmaN3" class="java.lang.String"/>
+	<parameter name="firmaN4" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[$P!{sql}]]>
+	</queryString>
+	<field name="GRUP" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="GRUP"/>
+		<property name="com.jaspersoft.studio.field.label" value="GRUP"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="VI_BALANCE_PRESUPUESTARIO_T3"/>
+	</field>
+	<field name="SECCION" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="SECCION"/>
+		<property name="com.jaspersoft.studio.field.label" value="SECCION"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="VI_BALANCE_PRESUPUESTARIO_T3"/>
+	</field>
+	<field name="NIVEL" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="NIVEL"/>
+		<property name="com.jaspersoft.studio.field.label" value="NIVEL"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="VI_BALANCE_PRESUPUESTARIO_T3"/>
+	</field>
+	<field name="TIPO" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="TIPO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TIPO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="VI_BALANCE_PRESUPUESTARIO_T3"/>
+	</field>
+	<field name="NOMCTA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOMCTA"/>
+		<property name="com.jaspersoft.studio.field.label" value="NOMCTA"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="VI_BALANCE_PRESUPUESTARIO_T3"/>
+	</field>
+	<field name="ESTIMADO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="ESTIMADO"/>
+		<property name="com.jaspersoft.studio.field.label" value="ESTIMADO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="VI_BALANCE_PRESUPUESTARIO_T3"/>
+	</field>
+	<field name="DEVENGADO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="DEVENGADO"/>
+		<property name="com.jaspersoft.studio.field.label" value="DEVENGADO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="VI_BALANCE_PRESUPUESTARIO_T3"/>
+	</field>
+	<field name="RECAUDADO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="RECAUDADO"/>
+		<property name="com.jaspersoft.studio.field.label" value="RECAUDADO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="VI_BALANCE_PRESUPUESTARIO_T3"/>
+	</field>
+	<variable name="totalEstimado" class="java.math.BigDecimal" resetType="Group" resetGroup="Group_Seccion" calculation="Sum">
+		<variableExpression><![CDATA[$F{ESTIMADO}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevengado" class="java.math.BigDecimal" resetType="Group" resetGroup="Group_Seccion" calculation="Sum">
+		<variableExpression><![CDATA[$F{DEVENGADO}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaudado" class="java.math.BigDecimal" resetType="Group" resetGroup="Group_Seccion" calculation="Sum">
+		<variableExpression><![CDATA[$F{RECAUDADO}]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalEstimadoA" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==1?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalEstimadoB" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==2?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalEstimadoC" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==3?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalA3" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==3?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaudadoA" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==1?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevengadoB" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==2?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevengadoC" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==3?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevengadoA" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==1?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaudadoB" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==2?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaudadoC" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==3?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevengadoA3" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==3?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaudadoA3" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==3?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalEstimadoE" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==4?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevengadoE" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==4?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaudadoE" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==4?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalEstimadoF" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==5?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevengadoF" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==5?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaudadoF" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==5?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalEstimadoG" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==6?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevengadoG" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==6?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaudadoG" class="java.math.BigDecimal" resetType="Group" resetGroup="GRUP" calculation="Sum">
+		<variableExpression><![CDATA[$F{SECCION}==6?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalF1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==26?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevF1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==26?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaF1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==26?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalG1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==27?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevG1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==27?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaG1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==27?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalA1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==24?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevA1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==24?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaA1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==24?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalB1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==28?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevB1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==28?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaB1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==28?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalC1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==29?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevC1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==29?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaC1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==29?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalB2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==36?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevB2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==36?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaB2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==36?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalF2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==34?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevF2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==34?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaF2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==34?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalG2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==35?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevG2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==35?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaG2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==35?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalA2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==32?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevaA2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==32?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaA2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==32?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalC2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==37?$F{ESTIMADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalDevaC2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==37?$F{DEVENGADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<variable name="totalRecaC2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{TIPO}==37?$F{RECAUDADO}:BigDecimal.ZERO]]></variableExpression>
+		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
+	</variable>
+	<group name="Linea">
+		<groupExpression><![CDATA[$F{GRUP}]]></groupExpression>
+		<groupFooter>
+			<band height="15">
+				<staticText>
+					<reportElement x="0" y="0" width="801" height="15" uuid="75a4cef6-a54c-4c89-9022-0c5f97734d0c">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4fd71723-bbc6-4fd7-bb63-36ff649d8d5b"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="GRUP">
+		<groupExpression><![CDATA[$F{GRUP}]]></groupExpression>
+		<groupFooter>
+			<band height="45">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<textField evaluationTime="Group" evaluationGroup="GRUP" pattern="#,##0.00">
+					<reportElement x="500" y="0" width="99" height="15" uuid="9d6a9521-e8e1-4e1c-8a21-44681e53bdf1">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}==1? $V{totalEstimadoA}.subtract($V{totalEstimadoB}).add($V{totalEstimadoC}): 
+$F{SECCION} == 4 ? $V{totalEstimadoA}.subtract($V{totalEstimadoB}).add($V{totalEstimadoC}).subtract($V{totalA3}).add($V{totalEstimadoC}).add($V{totalEstimadoE}):
+$F{SECCION}==6?$V{totalEstimadoF}.subtract( $V{totalEstimadoG}):
+$F{SECCION}==7?6666666:
+$F{SECCION}==9?$V{totalA1}.add($V{totalF1}.subtract($V{totalG1})).subtract($V{totalB1}).add($V{totalC1}):
+$F{SECCION}==10?$V{totalA2}.add($V{totalF1}.subtract($V{totalG1})).subtract($V{totalB1}).add($V{totalC1}):
+$F{SECCION}==11?$V{totalA2}.add($V{totalA2}.add($V{totalF1}.subtract($V{totalG1})).subtract($V{totalB1}).add($V{totalC1})).subtract($V{totalB2}).add($V{totalC2}):""]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group_Seccion">
+					<reportElement x="0" y="0" width="499" height="15" uuid="603c1d7e-5e47-4bb6-af39-930664f77a80">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<leftPen lineWidth="1.0" lineStyle="Solid"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=3?"I. Balance Presupuestario (I=A-B+C)":
+$F{SECCION}==4?"IV. Balance Primario (IV=III +E)":
+$F{SECCION}==6?"A3. Financiamiento Neto (A3=F - G)" :
+$F{SECCION}==7?"A3.1. Financiamiento Neto con Fuente de Pago de Ingresos de Libre Disposicion (A3.1=F1 - G1)":
+$F{SECCION}==9 ?"V. Balance Presupuestario de Recursos Disponibles (V=A1 + A3.1 - B1 + C1)":
+$F{SECCION}==10?"A3.2 Financiamiento Neto con Fuentes de Pago de Transferencias Federales Etiquetadas (A3.2=F2 - G2)":
+$F{SECCION}==11?"VII. Balance Presupuestario de Recursos Etiquetados (VII=A2 + A3.2  - B2 +C2) ": ""]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="15" width="499" height="15" uuid="c4df1661-969d-48d0-bfdf-c408e4312969">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=3?"II. Balance Presupuestario  sin Financiamiento  Neto (II=I - A3)":
+$F{SECCION}==9?"VI. Balance Presupuestario de Recursos Disponibles  sin Financiamiento Neto (VI=V - A3.1)":
+$F{SECCION}==11?"VIII. Balance Presupuestario de Recursos Etiquetados sin Financiamiento Neto(VIII=VII -A3.2":""]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="GRUP" pattern="#,##0.00">
+					<reportElement x="500" y="15" width="99" height="15" uuid="98d63c26-6333-44ee-92f9-7a293e8e9c06">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=3?$V{totalEstimadoA}.subtract($V{totalEstimadoB}).add($V{totalEstimadoC}).subtract($V{totalA3}):
+$F{SECCION}==9?$V{totalA1}.add($V{totalF1}.subtract($V{totalG1})).subtract($V{totalB1}).add($V{totalC1}).subtract($V{totalF1}).subtract($V{totalG1}):
+$F{SECCION}==11?$V{totalA1}.add($V{totalF1}.subtract($V{totalG1})).subtract($V{totalB1}).add($V{totalC1}).subtract($V{totalF1}.subtract($V{totalG1}).subtract($V{totalF1}).subtract($V{totalG1})):""]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="30" width="499" height="15" printWhenGroupChanges="Group_Seccion" uuid="96e0ce23-3c48-4a44-83f9-f2a28ab96eec">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=3?"III. Balance Presupuestario sin Financiamiento Neto y Remanentes del Ejercicio Anterior (III =II -C)":""]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="GRUP" pattern="#,##0.00">
+					<reportElement x="500" y="30" width="99" height="15" uuid="e811e42a-6305-4d74-a959-dfeb0827e67c">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=3?$V{totalEstimadoA}.subtract($V{totalEstimadoB}).add($V{totalEstimadoC}).subtract($V{totalA3}).add($V{totalEstimadoC}):""]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="600" y="0" width="99" height="15" uuid="91d8b04d-356b-45d9-990f-0b1191838716">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}==1? $V{totalDevengadoA}.subtract($V{totalDevengadoB}).add($V{totalDevengadoC}): 
+$F{SECCION} == 4 ? $V{totalDevengadoA}.subtract($V{totalDevengadoB}).add($V{totalDevengadoC}).subtract($V{totalDevengadoA3}).add($V{totalDevengadoC}).add($V{totalDevengadoE}):
+$F{SECCION}==6?$V{totalDevengadoF}.subtract( $V{totalDevengadoG}):
+$F{SECCION}==7?$V{totalDevF1}.subtract($V{totalDevG1}):
+$F{SECCION}==9?$V{totalDevA1}.add($V{totalDevF1}.subtract($V{totalDevG1})).subtract($V{totalDevB1}).add($V{totalDevC1}):
+$F{SECCION}==10?$V{totalDevF2}.subtract($V{totalDevG2}):
+$F{SECCION}==11?$V{totalDevaA2}.add($V{totalDevF2}.subtract($V{totalDevG2})).subtract($V{totalDevB2}).add($V{totalDevaC2})
+:""]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="600" y="15" width="99" height="15" uuid="dcfc6eb3-b1aa-4c75-90b8-22a9f989cbdc"/>
+					<box>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=3?$V{totalDevengadoA}.subtract($V{totalDevengadoB}).add($V{totalDevengadoC}).subtract($V{totalDevengadoA3}):
+$F{SECCION}==9?$V{totalDevA1}.add($V{totalDevF1}.subtract($V{totalDevG1})).subtract($V{totalDevB1}).add($V{totalDevC1}).subtract($V{totalDevF1}).subtract($V{totalDevG1}):
+$F{SECCION}==11?$V{totalDevA1}.add($V{totalDevF1}).subtract($V{totalDevG1}).subtract($V{totalDevB1}).add($V{totalDevC1}).subtract($V{totalDevF1}).subtract($V{totalDevG1}).subtract($V{totalDevF1}).subtract($V{totalDevG1}):""]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="601" y="30" width="98" height="15" uuid="8e1913cd-5dff-453e-a5b5-56b8483b91ef">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=3?$V{totalDevengadoA}.subtract($V{totalDevengadoB}).add($V{totalDevengadoC}).subtract($V{totalDevengadoA3}).add($V{totalDevengadoC}):""]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="700" y="0" width="101" height="15" uuid="1f405d68-06f6-4bd8-b0ea-75e6d0970b5c"/>
+					<box>
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}==1? $V{totalRecaudadoA}.subtract($V{totalRecaudadoB}).add($V{totalRecaudadoC}): 
+$F{SECCION} == 4 ? $V{totalRecaudadoA}.subtract($V{totalRecaudadoB}).add($V{totalRecaudadoC}).subtract($V{totalRecaudadoA3}).add($V{totalRecaudadoC}).add($V{totalRecaudadoE}):
+$F{SECCION}==6?$V{totalRecaudadoF}.subtract( $V{totalRecaudadoG}):
+$F{SECCION}==7?$V{totalRecaF1}.subtract($V{totalRecaG1}):
+$F{SECCION}==9?$V{totalRecaA1}.add($V{totalRecaF1}.subtract($V{totalRecaG1})).subtract($V{totalRecaB1}).add($V{totalRecaC1}):
+$F{SECCION}==10?$V{totalRecaF2}.subtract($V{totalRecaG2}):
+$F{SECCION}==11?$V{totalRecaA2}.add($V{totalRecaF2}.subtract($V{totalRecaG2})).subtract($V{totalRecaB2}).add($V{totalRecaC2})
+:""]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="701" y="15" width="100" height="15" uuid="b4b8eab3-263f-4936-ad43-902725aeadf1">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=3?$V{totalRecaudadoA}.subtract($V{totalRecaudadoB}).add($V{totalRecaudadoC}).subtract($V{totalRecaudadoA3}):
+$F{SECCION}==9?$V{totalRecaA1}.add($V{totalRecaF1}.subtract($V{totalRecaG1})).subtract($V{totalRecaB1}).add($V{totalRecaC1}).subtract($V{totalRecaF1}).subtract($V{totalRecaG1}):
+$F{SECCION}==11?$V{totalRecaA1}.add($V{totalRecaF1}.subtract($V{totalRecaG1})).subtract($V{totalRecaB1}).add($V{totalRecaC1}).subtract($V{totalRecaF1}.subtract($V{totalRecaG1}).subtract($V{totalRecaF1}).subtract($V{totalRecaG1})):""]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0.00">
+					<reportElement x="701" y="30" width="100" height="15" uuid="be8fd204-4495-4723-b68d-75964d25fbbb"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=3?$V{totalRecaudadoA}.subtract($V{totalRecaudadoB}).add($V{totalRecaudadoC}).subtract($V{totalRecaudadoA3}).add($V{totalRecaudadoC}):""]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="Titulos">
+		<groupExpression><![CDATA[$F{GRUP}]]></groupExpression>
+		<groupHeader>
+			<band height="15">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<staticText>
+					<reportElement x="0" y="0" width="499" height="15" uuid="8f1df36f-c31f-48f2-9c47-231260885561">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4fd71723-bbc6-4fd7-bb63-36ff649d8d5b"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CONCEPTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="499" y="0" width="100" height="15" uuid="9fd858b1-604e-4b2a-a0d0-c50d4321be4e">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf7d747d-7b51-43e0-ab40-465c4a25f147"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ESTIMADO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="599" y="0" width="100" height="15" uuid="51536096-5f9b-48ed-a4b1-fd5a90a8024e">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c6b8048b-aaa4-4efa-9a00-54e292ea7038"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DEVENGADO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="699" y="0" width="102" height="15" uuid="cd0abca8-83f3-4c6d-9ae8-be64cf9d23a0">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c4500be1-217d-4e46-b707-bc936e121965"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[RECAUDADO / PAGADO]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Group_Seccion">
+		<groupExpression><![CDATA[$F{SECCION}]]></groupExpression>
+		<groupHeader>
+			<band height="16">
+				<textField>
+					<reportElement x="0" y="1" width="499" height="15" uuid="8446dab9-8d70-4bab-9b16-ce29c23f0d0f">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}==1? "A. Ingresos Totales (A = A1+A2+A3)" : 
+$F{SECCION}==2? "B. Egresos Presupuestarios1 (B = B1+B2)":
+$F{SECCION}==3? "C. Remanentes del Ejercicio Anterior ( C = C1 + C2 )":
+$F{SECCION}==4? "E. Intereses, Comisiones y Gastos de la Deuda  ( E=E1 + E2 )":
+$F{SECCION}==5? "F. Financiamiento (F=F1 +F2)":
+$F{SECCION}==6? "G. Amortizaciòn de la Deuda  (G=G1+G2)":""]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group_Seccion" pattern="#,##0.00">
+					<reportElement x="500" y="1" width="99" height="15" uuid="771497d8-2352-4525-b851-18837cfa5b8c">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=6?$V{totalEstimado}:""]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group_Seccion" pattern="#,##0.00">
+					<reportElement x="600" y="1" width="99" height="15" uuid="92a2d465-72e6-4044-9c5d-a5c06ecefc13">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=6?$V{totalDevengado}:""]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Group" evaluationGroup="Group_Seccion" pattern="#,##0.00">
+					<reportElement x="699" y="1" width="102" height="15" uuid="5619418b-355c-40ba-89b4-6c954bb2eb14">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<rightPen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{SECCION}<=6?$V{totalRecaudado}:""]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="120" splitType="Stretch">
+			<staticText>
+				<reportElement x="150" y="105" width="520" height="15" uuid="8e351bf9-0be6-4987-b5d6-766fc963ffc8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[(PESOS)]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="40" y="0" width="150" height="60" uuid="8811faa8-d6ff-48ed-939f-bc40152b2587">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pImagen}]]></imageExpression>
+			</image>
+			<image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+				<reportElement x="610" y="0" width="140" height="60" uuid="1ea6cd82-bf12-4d79-a336-44375772af04">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pImagen2}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="140" y="76" width="520" height="15" uuid="3066a98e-a829-4ab6-95ef-f7847d0af6a6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Balance Presupuestario - LDF]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="130" y="61" width="540" height="15" uuid="167b559b-74ed-4a8a-8346-b268b2a34f29">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pNombreMunicipio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="90" width="540" height="15" uuid="dde07a70-33ec-430e-844c-81a3360f04f2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Del 1 de " + $P{pMesInicial} + " Al " + $P{pLastDay} +  " de "  + $P{pMesFinal} +  " de "  + $P{pYear}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="499" height="15" uuid="abc6ccd1-63b7-4653-a3cf-262aebbd6419">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4fd71723-bbc6-4fd7-bb63-36ff649d8d5b"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMCTA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="500" y="0" width="99" height="15" uuid="03de8394-19f8-429c-a915-51ea7d30f7dd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf7d747d-7b51-43e0-ab40-465c4a25f147"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ESTIMADO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="600" y="0" width="99" height="15" uuid="062a0998-bdc1-42d1-87b3-77d950a99c1b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c6b8048b-aaa4-4efa-9a00-54e292ea7038"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DEVENGADO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="701" y="0" width="100" height="15" uuid="2ac2b1f8-f1a2-46fa-b632-e0fdcf243e39">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c4500be1-217d-4e46-b707-bc936e121965"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RECAUDADO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="58" splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="100">
+			<staticText>
+				<reportElement x="-1" y="2" width="250" height="15" uuid="e7af8905-e49d-41e2-af47-3887f586098e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Elaboró]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="2" width="250" height="15" uuid="2a76f0ee-d31b-4299-ba3e-cfd735e8899d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Revisó]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="550" y="4" width="250" height="15" uuid="8ea64d82-2939-42c9-abb3-9f7988ca768b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Autorizó]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="41" width="250" height="15" uuid="e92f96f1-c519-4a3c-b76f-afbac5e29f10">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Jefe del Departamento de Control Presupuestal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="40" width="250" height="15" uuid="aaeb1b17-7350-4011-8c4c-19d1130e0e63">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Jefe del Departamento de Control de Ingresos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="550" y="40" width="250" height="15" uuid="4f682866-d720-4354-b5ed-8404ed8b9c44">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Subdirector de Finanzas]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="24" width="249" height="16" isRemoveLineWhenBlank="true" uuid="7bf76771-cd59-41fa-9fe4-0adba3f7d327"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firmaN2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="270" y="24" width="250" height="16" isRemoveLineWhenBlank="true" uuid="95496a87-d5de-4f34-bbda-42a6f2b65814"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firmaN3}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="550" y="24" width="251" height="16" isRemoveLineWhenBlank="true" uuid="3bf67ed1-54b4-4f1d-8588-86f5f9cb4588"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firmaN4}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="554" y="80" width="94" height="12" uuid="241507d1-30c6-4ee1-b19e-1518d2931cd1">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Emisión: ]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="652" y="80" width="72" height="12" uuid="ad56b19d-61e9-4ef0-a84c-95f8e80e6e8c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="724" y="80" width="70" height="12" uuid="ccc881ad-574e-4e93-9abb-657370f509cb">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Hoja No.: " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>
