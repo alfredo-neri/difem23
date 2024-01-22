@@ -108,13 +108,13 @@ public class CNCSituacionFinancieraMB extends ReportePeriodos {
 		paramsReport.put("nombreDependencia", conctb.getNomDep());
 		paramsReport.put("periodoActual3211", edoSF3211DTO.getTotalAct());
 
-		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F07.getValue());
+		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F08.getValue());
 		paramsReport.put("firmaL1", firma.getPuesto().getPuesto());
 		paramsReport.put("firmaN1", firma.getNombre());
-		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F08.getValue());
+		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F09.getValue());
 		paramsReport.put("firmaL2", firma.getPuesto().getPuesto());
 		paramsReport.put("firmaN2", firma.getNombre());
-		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F09.getValue());
+		firma = puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L, ConstantsClaveEnnum.CLAVE_F10.getValue());
 		paramsReport.put("firmaL3", firma.getPuesto().getPuesto());
 		paramsReport.put("firmaN3", firma.getNombre());
 

@@ -193,19 +193,19 @@ public class CNCEstadoActividadesMB extends ReportePeriodos {
 		parameters.put("entidadRfc", conctb.getRfc());
 
 		firma = this.puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L,
-				ConstantsClaveEnnum.CLAVE_F07.getValue());
+				ConstantsClaveEnnum.CLAVE_F08.getValue());
 		parameters.put("firmaP1", firma.getPuesto().getPuesto());
 		parameters.put("firmaN1", firma.getNombre());
 		firma = this.puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L,
-				ConstantsClaveEnnum.CLAVE_F08.getValue());
+				ConstantsClaveEnnum.CLAVE_F09.getValue());
 		parameters.put("firmaP2", firma.getPuesto().getPuesto());
 		parameters.put("firmaN2", firma.getNombre());
 		firma = this.puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L,
-				ConstantsClaveEnnum.CLAVE_F09.getValue());
+				ConstantsClaveEnnum.CLAVE_F10.getValue());
 		parameters.put("firmaP3", firma.getPuesto().getPuesto());
 		parameters.put("firmaN3", firma.getNombre());
 		firma = this.puestosFirmasService.getFirmaBySectorAnioClave(idSector, 0L,
-				ConstantsClaveEnnum.CLAVE_F10.getValue());
+				ConstantsClaveEnnum.CLAVE_F12.getValue());
 		parameters.put("firmaP4", firma.getPuesto().getPuesto());
 		parameters.put("firmaN4", firma.getNombre());
 		return parameters;
