@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+	<ui:composition template="/WEB-INF/layout/layout.xhtml">
+		<ui:define name="content">
+			<h:form id="form1">
+				<p:growl id="growlReportador" showDetail="true" sticky="true"></p:growl>
+				<p:panel id="panelReporte"
+					header="Conciliaci&oacute;n entre los Ingresos Presupuestarios y Contables"
+					styleClass="green col-md-9 col-centered row-centered shadow-panel">
+					<p:commandButton style="display: none" id="downXls" ajax="false"
+						onclick="PrimeFaces.monitorDownload(start, stop);">
+						<p:fileDownload
+							value="#{cNCConciliacionIngresoPresupuestalContableMB.fileXls}" />
+					</p:commandButton>
+					<p:panelGrid columns="7" styleClass="col-centered ui-noborder">
+
+						<h:outputText value="Trimestre:" for="idMes"
+							style="padding-left: 30px; padding-right: 10px; margin-top: 30px;" />
+
+						<p:selectOneMenu id="idMes"
+							value="#{cNCConciliacionIngresoPresupuestalContableMB.mesInput}">
+							<f:selectItem itemValue="3" itemLabel="Trimestre 1" />
+							<f:selectItem itemValue="6" itemLabel="Trimestre 2" />
+							<f:selectItem itemValue="9" itemLabel="Trimestre 3" />
+							<f:selectItem itemValue="12" itemLabel="Trimestre 4" />
+						</p:selectOneMenu>
+
+
+						<p:panelGrid columns="3" styleClass="ui-noborder">
+
+							<p:commandLink title="EXCEL"
+								update=":form1:growlReportador, :form1:downXls"
+								actionListener="#{cNCConciliacionIngresoPresupuestalContableMB.downloadXls}">
+								<p:graphicImage value="../reports/excel.png" width="24" />
+
+							</p:commandLink>
+
+							<p:commandButton id="generateportepdf"
+								onstart="PF('blockUIWidget').block()"
+								oncomplete="PF('blockUIWidget').unblock()"
+								action="#{cNCConciliacionIngresoPresupuestalContableMB.viewPdf}"
+								value="Correcto"
+								update="form1:inlinePdf, :form1:growlReportador"
+								styleClass="btn btn-default">
+							</p:commandButton>
+						</p:panelGrid>
+					</p:panelGrid>
+
+					<p:panel id="inlinePdf" style="border:0px"
+						visible="#{cNCConciliacionIngresoPresupuestalContableMB.uuid ne null}">
+
+						<object type="application/pdf"
+							data="#{request.contextPath}/GetFileInline?uuid=#{cNCConciliacionIngresoPresupuestalContableMB.uuid}&amp;filename=#{cNCConciliacionIngresoPresupuestalContableMB.endFilename}"
+							height="380px" width="100%"> Tu browser no puede
+							desplegar el PDF. </object>
+
+					</p:panel>
+
+				</p:panel>
+				<pe:blockUI widgetVar="blockUIWidget">
+					<h:panelGrid columns="2">
+						<h:graphicImage value="../reports/indice.png"
+							style="margin-right: 12px; vertical-align: middle;" />
+						<h:outputText value="Please wait..." style="white-space: nowrap;" />
+					</h:panelGrid>
+				</pe:blockUI>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

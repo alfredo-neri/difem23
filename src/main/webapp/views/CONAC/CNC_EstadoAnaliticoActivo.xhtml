@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:body>
+	<ui:composition template="/WEB-INF/layout/layout.xhtml">
+		<ui:define name="content">
+			<h:form id="form1">
+				<p:growl id="growlReportador" showDetail="true" sticky="true"></p:growl>
+				<p:panel id="panelReporte" header="Estado Analítico del Activo"
+					styleClass="green col-md-9 col-centered row-centered shadow-panel">
+					<p:panelGrid columns="6" styleClass="col-centered ui-noborder">
+						<h:outputText value="Trimestre: " for="trim" />
+						<p:selectOneMenu id="mesInputOri" size="18" editable="false"
+							value="#{cNCEdoAnaliticoActivoMB.mesSelected}">
+							<f:selectItem itemValue="3" itemLabel="01" />
+							<f:selectItem itemValue="6" itemLabel="02" />
+							<f:selectItem itemValue="9" itemLabel="03" />
+							<f:selectItem itemValue="12" itemLabel="04" />
+						</p:selectOneMenu>
+						<h:outputText value="Con saldo cero: " for="idSaldo" />
+						<p:selectOneMenu id="idSaldo"
+							value="#{cNCEdoAnaliticoActivoMB.saldo}">
+							<f:selectItem itemValue="S" itemLabel="S" />
+							<f:selectItem itemValue="N" itemLabel="N" />
+						</p:selectOneMenu>
+						<h:commandLink onclick="PrimeFaces.monitorDownload(start, stop);"
+							title="EXCEL">
+							<p:graphicImage value="../reports/excel.png" width="24" />
+							<p:fileDownload value="#{cNCEdoAnaliticoActivoMB.fileXls}" />
+						</h:commandLink>
+
+						<p:commandButton id="generateportepdf"
+							onstart="PF('blockUIWidget').block()"
+							oncomplete="PF('blockUIWidget').unblock()"
+							action="#{cNCEdoAnaliticoActivoMB.viewPdf}" value="Correcto"
+							update="form1:inlinePdf, :form1:growlReportador"
+							styleClass="btn btn-default">
+						</p:commandButton>
+					</p:panelGrid>
+					<p:panel id="inlinePdf" style="border:0px"
+						visible="#{cNCEdoAnaliticoActivoMB.uuid ne null}">
+
+						<object type="application/pdf"
+							data="#{request.contextPath}/GetFileInline?uuid=#{cNCEdoAnaliticoActivoMB.uuid}&amp;filename=#{cNCEdoAnaliticoActivoMB.endFilename}"
+							height="380px" width="100%"> Tu browser no puede
+							desplegar el PDF. </object>
+
+					</p:panel>
+
+
+				</p:panel>
+				<pe:blockUI widgetVar="blockUIWidget" centerX="false">
+					<h:panelGrid columns="2">
+						<h:graphicImage value="../reports/indice.png"
+							style="margin-right: 12px; vertical-align: middle;" />
+						<h:outputText value="Por favor espere..."
+							style="white-space: nowrap;" />
+					</h:panelGrid>
+				</pe:blockUI>
+
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
