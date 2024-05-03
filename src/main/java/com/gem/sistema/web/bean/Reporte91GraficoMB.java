@@ -172,7 +172,7 @@ public class Reporte91GraficoMB extends BaseDirectReport {
 
 		query.append(" SELECT	P.CUENTA,").append(" 		P.SCTA,").append(" 		P.SSCTA,")
 				.append(" 		P.SSSCTA,").append(" 	    NVL(P.SSSSCTA,'')SSSSCTA, ").append(" 		P.TIPPOL,")
-				.append(" 		P.FECPOL,").append(" 		P.MESPOL,").append(" 		P.CONPOL,")
+				.append(" 		E.FECPOL,").append(" 		P.MESPOL,").append(" 		P.CONPOL,")
 				.append(" 		P.RENPOL,").append(" 		P.CONCEP,").append(" 		P.CANPOL,")
 				.append(" 		P.CANPOLH,").append(" 		P.REFPOL,").append(" 		(SELECT COUNT(1) ")
 				.append(" 				FROM POLIDE POL ").append(" 			WHERE	POL.IDSECTOR = P.IDSECTOR ")
@@ -187,7 +187,9 @@ public class Reporte91GraficoMB extends BaseDirectReport {
 				.append(" 				AND POLI.CUENTA = P.CUENTA ").append(" 				AND POLI.SCTA =P.SCTA")
 				.append(" 		) ROWSDIRECCION,")
 				.append(" 		ROW_NUMBER() OVER (PARTITION BY P.CUENTA,P.SCTA) ROWDIRECCION")
-				.append(" 	FROM POLIDE P").append(" WHERE	P.CUENTA=" + cuenta)
+				.append(" 	FROM POLIDE P")
+				.append(" INNER JOIN POLIEN E ON P.ANOPOL=E.ANOPOL AND P.IDSECTOR=E.IDSECTOR AND P.MESPOL=E.MESPOL AND P.CONPOL=E.CONPOL AND P.TIPPOL=E.TIPPOL ")
+				.append(" WHERE	P.CUENTA=" + cuenta)
 				.append(" 	AND P.MESPOL BETWEEN " + mesIni + " AND " + mesFin).append(" 	AND P.ANOPOL=" + anio)
 				.append(" 	AND P.IDSECTOR=" + sector+" ").append(condicion)
 				.append(" ORDER BY P.CUENTA,P.SCTA,P.SSCTA,P.SSSCTA");
